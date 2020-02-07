@@ -64,6 +64,10 @@ if __name__ == '__main__':
                 timestamp = gps_entry['timestamp']
                 speed = gps_entry['speed']
 
+                if speed < 0:
+                    print('Speed is negative..')
+                    continue
+
                 vid.set(cv.CAP_PROP_POS_MSEC, int(timestamp - start_time))
 
                 # print(f'Scrubbed to time {timestamp - start_time}..')

@@ -1,6 +1,7 @@
 import numpy as np
 import cv2 as cv
 import pickle as pkl
+import os
 
 of_dir = '../optical-flow/train/'
 image_dir = '../images/train/'
@@ -23,10 +24,10 @@ if __name__ == '__main__':
         prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
         current_gray = cv.cvtColor(current_image, cv.COLOR_BGR2GRAY)
 
-        mask = np.zeros_like(first_frame)
+        mask = np.zeros_like(current_image)
         mask[..., 1] = 255
 
-        flow = cv.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 1, 20, 5, 5, 1.1, 0)
+        flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 20, 5, 5, 1.1, 0)
 
         magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
 
@@ -36,7 +37,7 @@ if __name__ == '__main__':
 
         rgb = cv.cvtColor(mask, cv.COLOR_HSV2BGR)
 
-        cv.imwrite(open(os.path.join(of_dir, f'{k}.jpg'), 'wb'), rgb)
+        cv.imwrite(os.path.join(of_dir, f'{k}.jpg'), rgb)
 
         of_map[f'{k}.jpg'] = speed
 

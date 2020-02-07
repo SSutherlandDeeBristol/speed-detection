@@ -2,6 +2,7 @@ import torch
 import pickle
 import os
 import cv2 as cv
+from torchvision import transforms
 
 class BDDDataset(data.Dataset):
     def __init__(self, of_image_path, of_map_path, transforms):
