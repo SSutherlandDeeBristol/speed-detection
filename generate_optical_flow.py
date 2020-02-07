@@ -2,43 +2,68 @@ import numpy as np
 import cv2 as cv
 import pickle as pkl
 import os
+import argparse
 
-of_dir = '../optical-flow/train/'
-image_dir = '../images/train/'
+parser = argparse.ArgumentParser(
+    description="Generate the optical flow images for the frames collected from video.",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
+
+parser.add_argument('--mode',
+                    default='train'
+                    help='train/val/test',
+                    required=True)
 
 if __name__ == '__main__':
+    args = parser.parse_args()
 
-    image_map = pkl.load(open('image_map.pkl', 'rb'))
+    mode = args.mode
 
-    of_map = {}
+    image_dir = f'../images/{mode}/'
+    of_dir = f'../optical-flow/{mode}/'
 
-    for i, (k, (prev, current, speed)) in enumerate(image_map.items()):
-        print(f'{i} | {prev} -> {current} | {speed}m/s')
+    image_map = pkl.load(open(os.path.join(image_dir, 'image_map.pkl'), 'rb'))
 
-        prev_path = os.path.join(image_dir, prev)
-        current_path = os.path.join(image_dir, current)
+    of_map_file = os.path.join(of_dir, 'optical_flow_map.pkl')
 
-        prev_image = cv.imread(prev_path)
-        current_image = cv.imread(current_path)
+    of_map = {} if not os.path.isfile(of_map_file) else pkl.load(open(of_map_file, 'rb'))
 
-        prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
-        current_gray = cv.cvtColor(current_image, cv.COLOR_BGR2GRAY)
+    num_processed = 0
 
-        mask = np.zeros_like(current_image)
-        mask[..., 1] = 255
+    for i, (k, v) in enumerate(image_map.items()):
+        if k in of_map.keys():
+            print(f'{k} already been processed..')
+            continue
 
-        flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 20, 5, 5, 1.1, 0)
+        for j, (prev, current, speed) in enumerate(v):
+            print(f'{k}-{j} ({num_processed + 1})| {prev} -> {current} | {speed}m/s')
 
-        magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
+            prev_path = os.path.join(image_dir, prev)
+            current_path = os.path.join(image_dir, current)
 
-        mask[..., 0] = angle * 180 / np.pi / 2
+            prev_image = cv.imread(prev_path)
+            current_image = cv.imread(current_path)
 
-        mask[..., 2] = cv.normalize(magnitude, None, 0, 255, cv.NORM_MINMAX)
+            prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
+            current_gray = cv.cvtColor(current_image, cv.COLOR_BGR2GRAY)
 
-        rgb = cv.cvtColor(mask, cv.COLOR_HSV2BGR)
+            mask = np.zeros_like(current_image)
+            mask[..., 1] = 255
 
-        cv.imwrite(os.path.join(of_dir, f'{k}.jpg'), rgb)
+            flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 20, 5, 5, 1.1, 0)
 
-        of_map[f'{k}.jpg'] = speed
+            magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
 
-    pkl.dump(of_map, open('optical_flow_map.pkl', 'wb'))
+            mask[..., 0] = angle * 180 / np.pi / 2
+
+            mask[..., 2] = cv.normalize(magnitude, None, 0, 255, cv.NORM_MINMAX)
+
+            rgb = cv.cvtColor(mask, cv.COLOR_HSV2BGR)
+
+            cv.imwrite(os.path.join(of_dir, f'{k}-{j}.jpg'), rgb)
+
+            of_map.setdefault(k, []).append((f'{k}-{j}.jpg', speed))
+
+            num_processed += 1
+
+    pkl.dump(of_map, open(os.path.join(of_dir, 'optical_flow_map.pkl'), 'wb'))

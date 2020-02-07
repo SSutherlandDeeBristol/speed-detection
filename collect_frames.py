@@ -3,10 +3,17 @@ import json
 import os
 import pickle as pkl
 import ffmpeg
+import argparse
 
-json_dir = '../info/train/'
-vid_dir = '../videos/train/'
-image_dir = '../images/train/'
+parser = argparse.ArgumentParser(
+    description="Collect the frames from video.",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+)
+
+parser.add_argument('--mode',
+                    default='train'
+                    help='train/val/test',
+                    required=True)
 
 def get_rotation_correct(path):
     meta_dict = ffmpeg.probe(path)
@@ -22,12 +29,24 @@ def get_rotation_correct(path):
     return rotation
 
 if __name__ == '__main__':
+    args = parser.parse_args()
+
+    mode = args.mode
+
+    json_dir = f'../info/{mode}/'
+    vid_dir = f'../videos/{mode}/'
+    image_dir = f'../images/{mode}/'
+
+    image_map_file = os.path.join(image_dir, 'image_map.pkl')
+
+    # try and read in the image map (video key -> [(prev_frame, current_frame, speed)])
+    image_map = {} if not os.path.isfile(image_map_file) else pkl.load(open(image_map_file, 'rb'))
+    # (video key -> video_file_path)
     vid_map = {}
+    # (video key -> json_file_path)
     json_map = {}
-    image_map = {}
 
-    image_counter = 0
-
+    # populate the json and video maps
     for i, filename in enumerate(os.listdir(json_dir)):
         if filename.endswith('.json'):
             json_map[filename[:-5]] = os.path.join(json_dir, filename)
@@ -38,6 +57,11 @@ if __name__ == '__main__':
 
     for i, key in enumerate(vid_map.keys()):
         print(f'Processing {key} | {i+1}/{len(vid_map.keys())}')
+
+        if key in image_map.keys():
+            print('Already extracted frames for video..')
+            continue
+
         if not key in json_map.keys():
             print('No JSON file found for video..')
             continue
@@ -107,21 +131,22 @@ if __name__ == '__main__':
                     # print(f'Could not read frame {current_frame - 1}..')
                     continue
 
-                prev_filename = os.path.join(image_dir, f'{image_counter}-prev.jpg')
-                current_filename = os.path.join(image_dir, f'{image_counter}-current.jpg')
+                prev_filename = f'{key}-{image_counter}-prev.jpg'
+                current_filename = f'{key}-{image_counter}-current.jpg'
+
+                prev_path = os.path.join(image_dir, prev_filename)
+                current_path = os.path.join(image_dir, prev_filename)
 
                 # print(f'Writing image to {prev_filename}..')
-                cv.imwrite(os.path.join(image_dir, f'{image_counter}-prev.jpg'), prev_image)
+                cv.imwrite(prev_path, prev_image)
                 # print(f'Writing image to {current_filename}..')
-                cv.imwrite(os.path.join(image_dir, f'{image_counter}-current.jpg'), current_image)
+                cv.imwrite(current_path, current_image)
 
-                image_map[image_counter] = (f'{image_counter}-prev.jpg', f'{image_counter}-current.jpg', speed)
-
-                image_counter = image_counter + 1
+                image_map.setdefault(key, []).append((prev_filename, current_filename, speed))
 
             vid.release()
 
         except:
             print('Problem loading JSON..')
 
-    pkl.dump(image_map, open('image_map.pkl', 'wb'))
+    pkl.dump(image_map, open(os.path.join(image_dir, 'image_map.pkl', 'wb'))
