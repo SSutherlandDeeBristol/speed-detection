@@ -41,7 +41,7 @@ if __name__ == '__main__':
     vid_dir = f'../videos/{mode}/'
     image_dir = f'../images/{mode}/'
 
-    image_map_file = os.path.join(image_dir, 'image_map.pkl')
+    image_map_file = os.path.join(image_dir, f'image_map_{mode}.pkl')
 
     # try and read in the image map (video key -> [(prev_frame, current_frame, speed)])
     image_map = {} if not os.path.isfile(image_map_file) else pkl.load(open(image_map_file, 'rb'))
@@ -143,8 +143,8 @@ if __name__ == '__main__':
                         # print(f'Could not read frame {current_frame - 1}..')
                         continue
 
-                    prev_filename = f'{key}-{image_counter}-prev.jpg'
-                    current_filename = f'{key}-{image_counter}-current.jpg'
+                    prev_filename = f'{key}-{image_counter}-prev.png'
+                    current_filename = f'{key}-{image_counter}-current.png'
 
                     prev_path = os.path.join(image_dir, prev_filename)
                     current_path = os.path.join(image_dir, current_filename)
@@ -163,4 +163,4 @@ if __name__ == '__main__':
             except:
                 print('Problem loading JSON..')
 
-    pkl.dump(image_map, open(os.path.join(image_dir, 'image_map.pkl'), 'wb'))
+    pkl.dump(image_map, open(os.path.join(image_dir, f'image_map_{mode}.pkl'), 'wb'))
