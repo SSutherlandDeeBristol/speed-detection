@@ -11,9 +11,13 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument('--mode',
-                    default='train'
+                    default='train',
                     help='train/val/test',
                     required=True)
+
+parser.add_argument('--clean',
+                    action='store_true',
+                    help='remove deleted videos entries from the map.')
 
 def get_rotation_correct(path):
     meta_dict = ffmpeg.probe(path)
@@ -46,107 +50,117 @@ if __name__ == '__main__':
     # (video key -> json_file_path)
     json_map = {}
 
-    # populate the json and video maps
-    for i, filename in enumerate(os.listdir(json_dir)):
-        if filename.endswith('.json'):
-            json_map[filename[:-5]] = os.path.join(json_dir, filename)
+    if args.clean:
+        for k, v in image_map:
+            if not os.path.isfile(os.path.join(vid_dir, f'{k}.mov')):
+                image_map.pop(k, None)
+    else:
+        # populate the json and video maps
+        for i, filename in enumerate(os.listdir(json_dir)):
+            if filename.endswith('.json'):
+                json_map[filename[:-5]] = os.path.join(json_dir, filename)
 
-    for i, filename in enumerate(os.listdir(vid_dir)):
-        if filename.endswith('.mov'):
-            vid_map[filename[:-4]] = os.path.join(vid_dir, filename)
+        for i, filename in enumerate(os.listdir(vid_dir)):
+            if filename.endswith('.mov'):
+                vid_map[filename[:-4]] = os.path.join(vid_dir, filename)
 
-    for i, key in enumerate(vid_map.keys()):
-        print(f'Processing {key} | {i+1}/{len(vid_map.keys())}')
+        for i, key in enumerate(vid_map.keys()):
+            print(f'Processing {key} | {i+1}/{len(vid_map.keys())}')
 
-        if key in image_map.keys():
-            print('Already extracted frames for video..')
-            continue
-
-        if not key in json_map.keys():
-            print('No JSON file found for video..')
-            continue
-        try:
-            json_obj = json.load(open(json_map[key]))
-
-            if json_obj['gps'] is None or json_obj['startTime'] is None:
-                print('No GPS or startTime data found..')
+            if key in image_map.keys():
+                print('Already extracted frames for video..')
                 continue
 
-            # print('Finding speeds and saving frames..')
-
-            start_time = json_obj['startTime']
-
-            vid = cv.VideoCapture(vid_map[key])
-
-            rotation = get_rotation_correct(vid_map[key])
-
-            if int(vid.get(cv.CAP_PROP_FRAME_HEIGHT)) != 1280 or int(vid.get(cv.CAP_PROP_FRAME_WIDTH) != 720):
-                print('Video not high res..')
+            if not key in json_map.keys():
+                print('No JSON file found for video..')
                 continue
 
-            for gps_entry in json_obj['gps']:
-                timestamp = gps_entry['timestamp']
-                speed = gps_entry['speed']
+            try:
+                json_obj = json.load(open(json_map[key]))
 
-                if speed < 0:
-                    print('Speed is negative..')
+                if json_obj['gps'] is None or json_obj['startTime'] is None:
+                    print('No GPS or startTime data found..')
                     continue
 
-                vid.set(cv.CAP_PROP_POS_MSEC, int(timestamp - start_time))
+                # print('Finding speeds and saving frames..')
 
-                # print(f'Scrubbed to time {timestamp - start_time}..')
+                start_time = json_obj['startTime']
 
-                current_frame = vid.get(cv.CAP_PROP_POS_FRAMES)
+                vid = cv.VideoCapture(vid_map[key])
 
-                # print(f'Current frame: {int(current_frame)}')
+                rotation = get_rotation_correct(vid_map[key])
 
-                # print('Reading frame..')
-
-                try:
-                    success, current_image = vid.read()
-                    if rotation is not None:
-                        current_image = cv.rotate(current_image, rotation)
-                except:
-                    # print(f'Could not read frame {int(current_frame)}..')
+                if int(vid.get(cv.CAP_PROP_FRAME_HEIGHT)) != 1280 or int(vid.get(cv.CAP_PROP_FRAME_WIDTH) != 720):
+                    print('Video not high res..')
                     continue
 
-                if not success or current_frame < 1:
-                    # print(f'Could not read frame {int(current_frame)}..')
-                    continue
+                image_counter = 0
 
-                vid.set(cv.CAP_PROP_POS_FRAMES, current_frame - 1)
+                for gps_entry in json_obj['gps']:
+                    timestamp = gps_entry['timestamp']
+                    speed = gps_entry['speed']
 
-                # print(f'Scrubbed to frame {int(current_frame - 1)}')
+                    if speed < 0:
+                        print('Speed is negative..')
+                        continue
 
-                # print('Reading frame..')
+                    vid.set(cv.CAP_PROP_POS_MSEC, int(timestamp - start_time))
 
-                try:
-                    success, prev_image = vid.read()
-                    prev_image = cv.rotate(prev_image, rotation)
-                except:
-                    # print(f'Could not read frame {int(current_frame - 1)}..')
-                    continue
+                    # print(f'Scrubbed to time {timestamp - start_time}..')
 
-                if not success:
-                    # print(f'Could not read frame {current_frame - 1}..')
-                    continue
+                    current_frame = vid.get(cv.CAP_PROP_POS_FRAMES)
 
-                prev_filename = f'{key}-{image_counter}-prev.jpg'
-                current_filename = f'{key}-{image_counter}-current.jpg'
+                    # print(f'Current frame: {int(current_frame)}')
 
-                prev_path = os.path.join(image_dir, prev_filename)
-                current_path = os.path.join(image_dir, prev_filename)
+                    # print('Reading frame..')
 
-                # print(f'Writing image to {prev_filename}..')
-                cv.imwrite(prev_path, prev_image)
-                # print(f'Writing image to {current_filename}..')
-                cv.imwrite(current_path, current_image)
+                    try:
+                        success, current_image = vid.read()
+                        if rotation is not None:
+                            current_image = cv.rotate(current_image, rotation)
+                    except:
+                        # print(f'Could not read frame {int(current_frame)}..')
+                        continue
 
-                image_map.setdefault(key, []).append((prev_filename, current_filename, speed))
+                    if not success or current_frame < 1:
+                        # print(f'Could not read frame {int(current_frame)}..')
+                        continue
 
-            vid.release()
+                    vid.set(cv.CAP_PROP_POS_FRAMES, current_frame - 1)
 
-        except:
-            print('Problem loading JSON..')
+                    # print(f'Scrubbed to frame {int(current_frame - 1)}')
 
-    pkl.dump(image_map, open(os.path.join(image_dir, 'image_map.pkl', 'wb'))
+                    # print('Reading frame..')
+
+                    try:
+                        success, prev_image = vid.read()
+                        prev_image = cv.rotate(prev_image, rotation)
+                    except:
+                        # print(f'Could not read frame {int(current_frame - 1)}..')
+                        continue
+
+                    if not success:
+                        # print(f'Could not read frame {current_frame - 1}..')
+                        continue
+
+                    prev_filename = f'{key}-{image_counter}-prev.jpg'
+                    current_filename = f'{key}-{image_counter}-current.jpg'
+
+                    prev_path = os.path.join(image_dir, prev_filename)
+                    current_path = os.path.join(image_dir, current_filename)
+
+                    # print(f'Writing image to {prev_filename}..')
+                    cv.imwrite(prev_path, prev_image)
+                    # print(f'Writing image to {current_filename}..')
+                    cv.imwrite(current_path, current_image)
+
+                    image_map.setdefault(key, []).append((prev_filename, current_filename, speed))
+
+                    image_counter += 1
+
+                vid.release()
+
+            except:
+                print('Problem loading JSON..')
+
+    pkl.dump(image_map, open(os.path.join(image_dir, 'image_map.pkl'), 'wb'))

@@ -10,9 +10,13 @@ parser = argparse.ArgumentParser(
 )
 
 parser.add_argument('--mode',
-                    default='train'
+                    default='train',
                     help='train/val/test',
                     required=True)
+
+parser.add_argument('--clean',
+                    action='store_true',
+                    help='remove deleted videos entries from the map.')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -20,6 +24,7 @@ if __name__ == '__main__':
     mode = args.mode
 
     image_dir = f'../images/{mode}/'
+    vid_dir = f'../videos/{mode}/'
     of_dir = f'../optical-flow/{mode}/'
 
     image_map = pkl.load(open(os.path.join(image_dir, 'image_map.pkl'), 'rb'))
@@ -28,42 +33,47 @@ if __name__ == '__main__':
 
     of_map = {} if not os.path.isfile(of_map_file) else pkl.load(open(of_map_file, 'rb'))
 
-    num_processed = 0
+    if args.clean:
+        for k, v in of_map:
+            if not os.path.isfile(os.path.join(vid_dir, f'{k}.mov')):
+                of_map.pop(k, None)
+    else:
+        num_processed = 0
 
-    for i, (k, v) in enumerate(image_map.items()):
-        if k in of_map.keys():
-            print(f'{k} already been processed..')
-            continue
+        for i, (k, v) in enumerate(image_map.items()):
+            if k in of_map.keys():
+                print(f'{k} already been processed..')
+                continue
 
-        for j, (prev, current, speed) in enumerate(v):
-            print(f'{k}-{j} ({num_processed + 1})| {prev} -> {current} | {speed}m/s')
+            for j, (prev, current, speed) in enumerate(v):
+                print(f'{k}-{j} ({num_processed + 1})| {prev} -> {current} | {speed}m/s')
 
-            prev_path = os.path.join(image_dir, prev)
-            current_path = os.path.join(image_dir, current)
+                prev_path = os.path.join(image_dir, prev)
+                current_path = os.path.join(image_dir, current)
 
-            prev_image = cv.imread(prev_path)
-            current_image = cv.imread(current_path)
+                prev_image = cv.imread(prev_path)
+                current_image = cv.imread(current_path)
 
-            prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
-            current_gray = cv.cvtColor(current_image, cv.COLOR_BGR2GRAY)
+                prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
+                current_gray = cv.cvtColor(current_image, cv.COLOR_BGR2GRAY)
 
-            mask = np.zeros_like(current_image)
-            mask[..., 1] = 255
+                mask = np.zeros_like(current_image)
+                mask[..., 1] = 255
 
-            flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 20, 5, 5, 1.1, 0)
+                flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 20, 5, 5, 1.1, 0)
 
-            magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
+                magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
 
-            mask[..., 0] = angle * 180 / np.pi / 2
+                mask[..., 0] = angle * 180 / np.pi / 2
 
-            mask[..., 2] = cv.normalize(magnitude, None, 0, 255, cv.NORM_MINMAX)
+                mask[..., 2] = cv.normalize(magnitude, None, 0, 255, cv.NORM_MINMAX)
 
-            rgb = cv.cvtColor(mask, cv.COLOR_HSV2BGR)
+                rgb = cv.cvtColor(mask, cv.COLOR_HSV2BGR)
 
-            cv.imwrite(os.path.join(of_dir, f'{k}-{j}.jpg'), rgb)
+                cv.imwrite(os.path.join(of_dir, f'{k}-{j}.jpg'), rgb)
 
-            of_map.setdefault(k, []).append((f'{k}-{j}.jpg', speed))
+                of_map.setdefault(k, []).append((f'{k}-{j}.jpg', speed))
 
-            num_processed += 1
+                num_processed += 1
 
     pkl.dump(of_map, open(os.path.join(of_dir, 'optical_flow_map.pkl'), 'wb'))
