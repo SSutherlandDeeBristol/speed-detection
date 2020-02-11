@@ -60,7 +60,7 @@ class CNN(nn.Module):
         )
         self.initialise_layer(self.conv5)
 
-        size = int((image_height / 4) * (image_width / 4) * self.conv5.out_channels)
+        size = int((image_height / 8) * (image_width / 8) * self.conv5.out_channels)
 
         self.fc1 = nn.Linear(size, 1164)
         self.initialise_layer(self.fc1)
