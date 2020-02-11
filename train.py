@@ -59,7 +59,7 @@ if __name__=='__main__':
     resize_transform = transforms.Resize((image_height, image_width))
 
     optimizer = torch.optim.Adam(model.parameters(),
-                                 lr=1e-3,
+                                 lr=1e-2,
                                  weight_decay=1e-3)
 
     train_loader = torch.utils.data.DataLoader(
