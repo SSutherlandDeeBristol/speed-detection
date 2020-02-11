@@ -23,12 +23,10 @@ class BDDDataset(data.Dataset):
         if self.transforms:
             image = self.transforms(image)
 
-        image.save(f'{index}.png', "PNG")
-
         image = np.transpose(image, (2,1,0))
 
         return image, speed
 
     def __len__(self):
-        return 10 #len(self.of_map.keys())
+        return 5000 #len(self.of_map.keys())
 
