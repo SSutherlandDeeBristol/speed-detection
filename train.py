@@ -1,6 +1,7 @@
 # Local Modules
 from bdd_dataset import BDDDataset
 from cnn import CNN
+from trainer import Trainer
 
 # Python Modules
 import time
@@ -28,9 +29,8 @@ if torch.cuda.is_available():
 else:
     DEVICE = torch.device("cpu")
 
-def get_summary_writer_log_dir(dataset_type) -> str:
+def get_summary_writer_log_dir() -> str:
     tb_log_dir_prefix = (
-        f'{dataset_type}_'
         f'run_'
     )
     i = 0
@@ -42,9 +42,7 @@ def get_summary_writer_log_dir(dataset_type) -> str:
     return str(tb_log_dir)
 
 if __name__=='__main__':
-    dataset_type = 'original'
-
-    log_dir = get_summary_writer_log_dir(dataset_type)
+    log_dir = get_summary_writer_log_dir()
 
     summary_writer = SummaryWriter(
                 str(log_dir),
@@ -55,4 +53,37 @@ if __name__=='__main__':
 
     model = CNN(1280, 720, 3)
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3, weight_decay=1e-3)
+    optimizer = torch.optim.Adam(model.parameters(),
+                                 lr=1e-3,
+                                 weight_decay=1e-3)
+
+    train_loader = torch.utils.data.DataLoader(
+        BDDDataset('../optical-flow/train/', 'dataset_train.pkl', None),
+        batch_size=2, shuffle=True,
+        num_workers=8, pin_memory=True
+    )
+
+    val_loader = torch.utils.data.DataLoader(
+        BDDDataset('../optical-flow/val/', 'dataset_val.pkl', None),
+        batch_size=2, shuffle=False,
+        num_workers=8, pin_memory=True
+    )
+
+    trainer = Trainer(model,
+                      train_loader,
+                      val_loader,
+                      criterion,
+                      optimizer,
+                      summary_writer,
+                      DEVICE)
+
+    trainer.train(20,
+                  1,
+                  1,
+                  1)
+
+    trainer.save_model()
+
+    print(log_dir)
+
+    summary_writer.close()

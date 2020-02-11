@@ -1,9 +1,9 @@
 import torch
+import numpy as np
 from torch import nn
 from torch.nn import functional as F
-import numpy as np
 
-def CNN(nn.Module):
+class CNN(nn.Module):
     def __init__(self, image_width, image_height, input_channels):
         super().__init__()
         self.image_width = image_width
@@ -77,7 +77,7 @@ def CNN(nn.Module):
         self.fc5 = nn.Linear(10, 1)
         self.initialise_layer(self.fc5)
 
-    def forward(self, images) -> torch.Tensor
+    def forward(self, images) -> torch.Tensor:
         x = F.elu(self.conv1(images))
 
         x = F.elu(self.conv2(x))
@@ -106,7 +106,7 @@ def CNN(nn.Module):
 
     @staticmethod
     def initialise_layer(layer):
-        if hasattr(layer, "bias"):
+        if layer.bias is not None:
             nn.init.zeros_(layer.bias)
         if hasattr(layer, "weight"):
             nn.init.kaiming_normal_(layer.weight)
