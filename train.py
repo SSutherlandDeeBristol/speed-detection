@@ -64,13 +64,13 @@ if __name__=='__main__':
 
     train_loader = torch.utils.data.DataLoader(
         BDDDataset('../train/', 'dataset_train.pkl', resize_transform),
-        batch_size=8, shuffle=True,
+        batch_size=16, shuffle=True,
         num_workers=8, pin_memory=True
     )
 
     val_loader = torch.utils.data.DataLoader(
         BDDDataset('../val/', 'dataset_val.pkl', resize_transform),
-        batch_size=8, shuffle=False,
+        batch_size=16, shuffle=False,
         num_workers=8, pin_memory=True
     )
 
