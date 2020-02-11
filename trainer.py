@@ -36,6 +36,8 @@ class Trainer:
         self.optimizer = optimizer
         self.summary_writer = summary_writer
         self.step = 0
+        self.logit_dir = os.path.join(self.summary_writer.log_dir, "logits")
+        os.mkdir(self.logit_dir)
 
     def train(
         self,
@@ -46,8 +48,6 @@ class Trainer:
         start_epoch: int = 0,
     ):
         self.model.train()
-
-        print("Started training")
 
         for epoch in range(start_epoch, epochs):
             self.model.train()
