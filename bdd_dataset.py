@@ -22,7 +22,8 @@ class BDDDataset(data.Dataset):
 
         image = np.transpose(image, (2,1,0))
 
-        image = transforms(image)
+        if self.transforms:
+            image = self.transforms(image)
 
         print("Loaded image..")
 
