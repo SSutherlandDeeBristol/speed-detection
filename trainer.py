@@ -163,8 +163,7 @@ class Trainer:
                                       average_loss,
                                       epoch_num)
 
-        self.log_validation_metrics(total_loss,
-                                    average_loss)
+        self.log_validation_metrics(average_loss)
 
     def print_validation_metrics(self, loss, average_loss, epoch_num):
         print(f"loss: {loss:2.2f}%", flush=True)
