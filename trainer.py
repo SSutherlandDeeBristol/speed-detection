@@ -64,8 +64,6 @@ class Trainer:
                 logits = self.model.forward(batch)
                 logits = np.squeeze(logits)
 
-                print(logits)
-
                 loss = self.criterion(logits, labels)
 
                 loss.backward()

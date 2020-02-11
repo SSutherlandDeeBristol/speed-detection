@@ -25,8 +25,6 @@ class BDDDataset(data.Dataset):
 
         image = np.transpose(image, (2,1,0))
 
-        print("Loaded image..")
-
         return image, speed
 
     def __len__(self):
