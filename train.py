@@ -58,13 +58,13 @@ if __name__=='__main__':
                                  weight_decay=1e-3)
 
     train_loader = torch.utils.data.DataLoader(
-        BDDDataset('../mnt/storage/scratch/ss15060/train/', 'dataset_train.pkl', None),
+        BDDDataset('~/../../scratch/ss15060/train/', 'dataset_train.pkl', None),
         batch_size=2, shuffle=True,
         num_workers=8, pin_memory=True
     )
 
     val_loader = torch.utils.data.DataLoader(
-        BDDDataset('../mnt/storage/scratch/ss15060/val/', 'dataset_val.pkl', None),
+        BDDDataset('~/../../scratch/ss15060/val/', 'dataset_val.pkl', None),
         batch_size=2, shuffle=False,
         num_workers=8, pin_memory=True
     )
