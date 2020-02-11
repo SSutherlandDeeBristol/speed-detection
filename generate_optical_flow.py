@@ -37,6 +37,9 @@ if __name__ == '__main__':
         for k, v in of_map:
             if not os.path.isfile(os.path.join(vid_dir, f'{k}.mov')):
                 print(f'Removing {k}..')
+                for (prev, current, _) in v:
+                    os.remove(os.path.join(of_dir, prev))
+                    os.remove(os.path.join(of_dir, current))
                 of_map.pop(k, None)
     else:
         num_processed = 0
@@ -62,10 +65,9 @@ if __name__ == '__main__':
 
                 mask = np.zeros_like(current_image)
 
-                hsv_current = cv.cvtColor(current_image, cv2.COLOR_RGB2HSV)
+                hsv_current = cv.cvtColor(current_image, cv.COLOR_RGB2HSV)
                 mask[:,:,1] = hsv_current[:,:,1]
 
-                # flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 20, 5, 5, 1.1, 0)
                 flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 15, 2, 5, 1.3, 0)
 
                 magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
