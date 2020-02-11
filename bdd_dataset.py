@@ -20,10 +20,10 @@ class BDDDataset(data.Dataset):
         image = Image.open(image_path)
         image.load()
 
-        image = np.transpose(image, (2,1,0))
-
         if self.transforms:
             image = self.transforms(image)
+
+        image = np.transpose(image, (2,1,0))
 
         print("Loaded image..")
 
