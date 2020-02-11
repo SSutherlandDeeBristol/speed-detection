@@ -183,7 +183,7 @@ class Trainer:
     def save_logits_to_logs(self, epoch, log):
         epoch_dir = os.path.join(self.logit_dir, str(epoch) +".pkl")
         with open(epoch_dir, 'wb') as handle:
-                pickle.dump(log, handle, protocol=pickle.HIGHEST_PROTOCOL)
+                pkl.dump(log, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def save_model(self):
         file_path = os.path.join(self.summary_writer.log_dir, "model.pt")
