@@ -1,10 +1,10 @@
 import torch
 import pickle
 import os
-import cv2 as cv
 from torchvision import transforms
 from torch.utils import data
 import numpy as np
+from PIL import Image
 
 class BDDDataset(data.Dataset):
     def __init__(self, of_path, of_map_name, transforms):
@@ -17,7 +17,8 @@ class BDDDataset(data.Dataset):
 
         image_path = os.path.join(self.of_path, image_name)
 
-        image = cv.imread(image_path)
+        image = Image.open(image_path)
+        image.load()
 
         image = np.transpose(image, (2,1,0))
 
