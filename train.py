@@ -51,20 +51,25 @@ if __name__=='__main__':
 
     criterion = torch.nn.MSELoss()
 
-    model = CNN(1280, 720, 3)
+    image_width = 640
+    image_height = 360
+
+    model = CNN(image_width, image_height, 3)
+
+    resize_transform = transforms.Resize((image_height, image_width))
 
     optimizer = torch.optim.Adam(model.parameters(),
                                  lr=1e-3,
                                  weight_decay=1e-3)
 
     train_loader = torch.utils.data.DataLoader(
-        BDDDataset('../train/', 'dataset_train.pkl', None),
+        BDDDataset('../train/', 'dataset_train.pkl', resize_transform),
         batch_size=2, shuffle=True,
         num_workers=8, pin_memory=True
     )
 
     val_loader = torch.utils.data.DataLoader(
-        BDDDataset('../val/', 'dataset_val.pkl', None),
+        BDDDataset('../val/', 'dataset_val.pkl', resize_transform),
         batch_size=2, shuffle=False,
         num_workers=8, pin_memory=True
     )
