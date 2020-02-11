@@ -28,5 +28,5 @@ class BDDDataset(data.Dataset):
         return image, speed
 
     def __len__(self):
-        return 1000 #len(self.of_map.keys())
+        return 16000 #len(self.of_map.keys())
 
