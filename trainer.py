@@ -124,7 +124,6 @@ class Trainer:
     def validate(self, epoch_num):
         self.model.eval()
 
-        results = {"preds": [], "labels": []}
         total_loss = 0
 
         base_address = 0
@@ -143,9 +142,6 @@ class Trainer:
                 loss = self.criterion(logits, labels)
 
                 total_loss += loss.item()
-
-                results["preds"].extend(list(logits.cpu().numpy()))
-                results["labels"].extend(list(labels.cpu().numpy()))
 
                 for j in range(batch.shape[0]):
                     logit_log[base_address + j] = (logits[j].cpu().numpy(),
