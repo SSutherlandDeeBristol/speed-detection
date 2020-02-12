@@ -81,7 +81,7 @@ if __name__=='__main__':
                       summary_writer,
                       DEVICE)
 
-    trainer.train(20,
+    trainer.train(30,
                   1,
                   1,
                   1)
