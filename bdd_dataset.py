@@ -25,7 +25,7 @@ class BDDDataset(data.Dataset):
 
         image = np.transpose(image, (2,1,0))
 
-        return image, speed
+        return image, speed, image_name
 
     def __len__(self):
         return len(self.of_map.keys())

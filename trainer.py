@@ -53,7 +53,7 @@ class Trainer:
             self.model.train()
             data_load_start_time = time.time()
 
-            for batch, labels, in self.train_loader:
+            for batch, labels, fnames in self.train_loader:
                 batch = batch.to(self.device)
                 labels = labels.to(self.device)
                 data_load_end_time = time.time()
@@ -96,11 +96,11 @@ class Trainer:
                 self.model.train()
 
     def print_metrics(self, epoch, loss, data_load_time, step_time):
-        epoch_step = self.step % len(self.train_loader)
+        epoch_step = (self.step + 1) % len(self.train_loader)
         print(
                 f"epoch: [{epoch}], "
                 f"step: [{epoch_step}/{len(self.train_loader)}], "
-                f"batch loss: {loss:.5f}, "
+                f"batch loss (MSE): {loss:.5f}, "
                 f"data load time: "
                 f"{data_load_time:.5f}, "
                 f"step time: {step_time:.5f}",
@@ -131,7 +131,7 @@ class Trainer:
         logit_log = {}
 
         with torch.no_grad():
-            for i, (batch, labels) in enumerate(self.val_loader):
+            for i, (batch, labels, fnames) in enumerate(self.val_loader):
                 print(f'Validating: ({i}/{len(self.val_loader)})')
                 batch = batch.to(self.device)
                 labels = labels.to(self.device)
@@ -148,8 +148,10 @@ class Trainer:
                 total_loss += loss.item()
 
                 for j in range(batch.shape[0]):
-                    logit_log[base_address + j] = (logits[j].item(),
-                        labels[j].item()
+                    logit_log[base_address + j] = (
+                        logits[j].item(),
+                        labels[j].item(),
+                        fnames[j]
                     )
                 base_address += 1
 
