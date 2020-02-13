@@ -143,8 +143,10 @@ class Trainer:
 
                 total_loss += loss.item()
 
+		print(logits)
+
                 for j in range(batch.shape[0]):
-                    logit_log[base_address + j] = (logits[j].cpu().numpy(),
+                    logit_log[base_address + j] = (logits[j].item(),
                         labels[j].item()
                     )
                 base_address += 1
