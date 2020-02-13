@@ -133,7 +133,7 @@ class Trainer:
 
         with torch.no_grad():
             for i, (batch, labels, fnames) in enumerate(self.val_loader):
-                print(f'step ({i + 1}/{len(self.val_loader)})')
+                print(f'step ({i + 1}/{len(self.val_loader)})', flush=True)
                 batch = batch.to(self.device)
                 labels = labels.to(self.device)
 
