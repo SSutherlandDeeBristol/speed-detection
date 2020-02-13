@@ -96,10 +96,10 @@ class Trainer:
                 self.model.train()
 
     def print_metrics(self, epoch, loss, data_load_time, step_time):
-        epoch_step = (self.step + 1) % len(self.train_loader)
+        epoch_step = (self.step) % len(self.train_loader)
         print(
                 f"epoch: [{epoch}], "
-                f"step: [{epoch_step}/{len(self.train_loader)}], "
+                f"step: [{epoch_step + 1}/{len(self.train_loader)}], "
                 f"batch loss (MSE): {loss:.5f}, "
                 f"data load time: "
                 f"{data_load_time:.5f}, "
@@ -121,18 +121,19 @@ class Trainer:
                 "time/data", step_time, self.step
         )
 
-
     def validate(self, epoch_num):
         self.model.eval()
 
         total_loss = 0
 
-        base_address = 0
         logit_log = {}
+
+        total_logits = np.array([])
+        total_labels = np.array([])
 
         with torch.no_grad():
             for i, (batch, labels, fnames) in enumerate(self.val_loader):
-                print(f'Validating: ({i}/{len(self.val_loader)})')
+                print(f'step ({i + 1}/{len(self.val_loader)})')
                 batch = batch.to(self.device)
                 labels = labels.to(self.device)
 
@@ -143,39 +144,32 @@ class Trainer:
 
                 labels = np.expand_dims(labels.cpu().numpy(), axis=1)
 
-                loss = self.criterion(logits.cpu(), torch.Tensor(labels))
-
-                total_loss += loss.item()
+                total_logits = np.append(total_logits, logits.cpu().numpy())
+                total_labels = np.append(total_labels, labels)
 
                 for j in range(batch.shape[0]):
-                    logit_log[base_address + j] = (
+                    logit_log[fnames[j]] = (
                         logits[j].item(),
-                        labels[j].item(),
-                        fnames[j]
+                        labels[j].item()
                     )
-                base_address += 1
+
+        mse = self.criterion(torch.Tensor(total_logits), torch.Tensor(total_labels))
 
         self.save_logits_to_logs(epoch_num, logit_log)
 
-        average_loss = total_loss / len(self.val_loader)
-
-        self.print_validation_metrics(total_loss,
-                                      average_loss,
+        self.print_validation_metrics(mse,
                                       epoch_num)
 
-        self.log_validation_metrics(average_loss)
+        self.log_validation_metrics(mse)
 
-    def print_validation_metrics(self, loss, average_loss, epoch_num):
-        print(f"loss: {loss:2.2f}", flush=True)
-
-        print(f"average loss: {average_loss:.5f}", flush=True)
-
+    def print_validation_metrics(self, loss, epoch_num):
         print(f"epoch: {epoch_num}")
+        print(f"loss (MSE): {loss:.5f}", flush=True)
 
-    def log_validation_metrics(self, average_loss):
+    def log_validation_metrics(self, loss):
         self.summary_writer.add_scalars(
                 "loss",
-                {"test": average_loss},
+                {"test": loss},
                 self.step
         )
 
