@@ -143,7 +143,7 @@ class Trainer:
 
                 total_loss += loss.item()
 
-		print(logits)
+		        print(logits.item())
 
                 for j in range(batch.shape[0]):
                     logit_log[base_address + j] = (logits[j].item(),
