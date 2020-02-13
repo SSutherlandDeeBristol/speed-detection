@@ -65,7 +65,7 @@ class Trainer:
 
                 labels = np.expand_dims(labels.cpu().numpy(), axis=1)
 
-                loss = self.criterion(logits, torch.Tensor(labels))
+                loss = self.criterion(logits.cpu().numpy(), torch.Tensor(labels))
 
                 loss.backward()
 
@@ -142,7 +142,7 @@ class Trainer:
 
                 labels = np.expand_dims(labels.cpu().numpy(), axis=1)
 
-                loss = self.criterion(logits, torch.Tensor(labels))
+                loss = self.criterion(logits.cpu().numpy(), torch.Tensor(labels))
 
                 total_loss += loss.item()
 
