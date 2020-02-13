@@ -131,7 +131,8 @@ class Trainer:
         logit_log = {}
 
         with torch.no_grad():
-            for batch, labels in self.val_loader:
+            for i, (batch, labels) in enumerate(self.val_loader):
+                print(f'Validating: ({i}/{len(self.val_loader)})')
                 batch = batch.to(self.device)
                 labels = labels.to(self.device)
 
