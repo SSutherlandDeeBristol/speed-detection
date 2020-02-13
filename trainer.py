@@ -62,9 +62,10 @@ class Trainer:
                 labels = labels.float()
 
                 logits = self.model.forward(batch)
-                logits = np.squeeze(logits)
 
-                loss = self.criterion(logits, labels)
+                labels = np.expand_dims(labels,axis=1)
+
+                loss = self.criterion(logits, torch.Tensor(labels))
 
                 loss.backward()
 
@@ -138,12 +139,12 @@ class Trainer:
                 labels = labels.float()
 
                 logits = self.model(batch)
-                logits = np.squeeze(logits)
-                loss = self.criterion(logits, labels)
+
+                labels = np.expand_dims(labels,axis=1)
+
+                loss = self.criterion(logits, torch.Tensor(labels))
 
                 total_loss += loss.item()
-
-		        print(logits.item())
 
                 for j in range(batch.shape[0]):
                     logit_log[base_address + j] = (logits[j].item(),
