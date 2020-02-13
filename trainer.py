@@ -63,7 +63,7 @@ class Trainer:
 
                 logits = self.model.forward(batch)
 
-                labels = np.expand_dims(labels,axis=1)
+                labels = np.expand_dims(labels.cpu().numpy(), axis=1)
 
                 loss = self.criterion(logits, torch.Tensor(labels))
 
@@ -140,7 +140,7 @@ class Trainer:
 
                 logits = self.model(batch)
 
-                labels = np.expand_dims(labels,axis=1)
+                labels = np.expand_dims(labels.cpu().numpy(), axis=1)
 
                 loss = self.criterion(logits, torch.Tensor(labels))
 
