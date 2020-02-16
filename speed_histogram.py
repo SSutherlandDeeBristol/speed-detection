@@ -21,4 +21,7 @@ if __name__=='__main__':
 
     plt.hist(np.concatenate([[s for (_,s) in speeds] for speeds in of_map.values()]), bins='auto')
     plt.title('Histogram of speeds in the training set.')
+    plt.xlabel('Ground truth speed')
+    plt.ylabel('Binned frequency')
+    plt.savefig(f'{args.mode}-speed-histogram.png', dpi=400)
     plt.show()
