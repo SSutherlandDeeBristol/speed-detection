@@ -15,7 +15,7 @@ class BDDDataset(data.Dataset):
     def __getitem__(self, index):
         image_name, speed = self.of_map[index]
 
-        image_path = os.path.join(self.of_path, image_name)
+        image_path = os.path.join(self.of_path, image_name[:17], image_name)
 
         image = Image.open(image_path)
         image.load()

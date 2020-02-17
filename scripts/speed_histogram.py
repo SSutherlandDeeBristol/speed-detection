@@ -20,7 +20,7 @@ if __name__=='__main__':
     of_map = pkl.load(open(f'../../{args.mode}/dataset_{args.mode}.pkl', 'rb'))
 
     plt.hist([s for _,s in of_map.values()], bins='auto')
-    plt.title('Histogram of speeds in the training set.')
+    plt.title(f'Histogram of speeds in the {args.mode} set.')
     plt.xlabel('Ground truth speed')
     plt.ylabel('Binned frequency')
     plt.savefig(f'{args.mode}-speed-histogram.png', dpi=400)
