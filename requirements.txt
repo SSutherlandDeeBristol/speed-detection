@@ -2,3 +2,4 @@ ffmpeg-python
 numpy
 opencv-python
 matplotlib
+torch
