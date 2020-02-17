@@ -2,7 +2,7 @@ import pickle as pkl
 from matplotlib import pyplot as plt
 from scipy import stats
 
-file_name = 'logs/run_2/logits/14.pkl'
+file_name = '../logs/run_2/logits/14.pkl'
 
 if __name__ == '__main__':
     logits = pkl.load(open(file_name, 'rb'))

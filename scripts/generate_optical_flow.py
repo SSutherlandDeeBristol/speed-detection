@@ -23,9 +23,9 @@ if __name__ == '__main__':
 
     mode = args.mode
 
-    image_dir = f'../images/{mode}/'
-    vid_dir = f'../videos/{mode}/'
-    of_dir = f'../optical-flow/{mode}/'
+    image_dir = f'../../images/{mode}/'
+    vid_dir = f'../../videos/{mode}/'
+    of_dir = f'../../optical-flow/{mode}/'
 
     image_map = pkl.load(open(os.path.join(image_dir, f'image_map_{mode}.pkl'), 'rb'))
 

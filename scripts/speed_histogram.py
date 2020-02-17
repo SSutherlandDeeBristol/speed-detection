@@ -17,7 +17,7 @@ if __name__=='__main__':
 
     args = parser.parse_args()
 
-    of_map = pkl.load(open(f'../{args.mode}/dataset_{args.mode}.pkl', 'rb'))
+    of_map = pkl.load(open(f'../../{args.mode}/dataset_{args.mode}.pkl', 'rb'))
 
     plt.hist([s for _,s in of_map.values()], bins='auto')
     plt.title('Histogram of speeds in the training set.')

@@ -23,7 +23,7 @@ if __name__=='__main__':
     mode = args.mode
     num_zero_speeds = args.num_zero_speeds
 
-    of_path = f'../{mode}/'
+    of_path = f'../../{mode}/'
 
     of_map = pkl.load(open(os.path.join(of_path, f'optical_flow_map_{mode}.pkl'), 'rb'))
 

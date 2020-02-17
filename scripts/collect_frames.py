@@ -37,9 +37,9 @@ if __name__ == '__main__':
 
     mode = args.mode
 
-    json_dir = f'../info/{mode}/'
-    vid_dir = f'../videos/{mode}/'
-    image_dir = f'../images/{mode}/'
+    json_dir = f'../../info/{mode}/'
+    vid_dir = f'../../videos/{mode}/'
+    image_dir = f'../../images/{mode}/'
 
     image_map_file = os.path.join(image_dir, f'image_map_{mode}.pkl')
 
