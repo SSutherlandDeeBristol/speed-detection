@@ -17,7 +17,7 @@ class BDDDataset(data.Dataset):
 
         image_path = os.path.join(self.of_path, image_name[:17], image_name)
 
-        print(image_path)
+        print(image_path, flush=True)
 
         image = Image.open(image_path)
         image.load()
