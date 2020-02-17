@@ -14,16 +14,31 @@ parser.add_argument('--mode',
                     help='train/val/test',
                     required=True)
 
+parser.add_argument('--num-zero-speeds',
+                    required=True)
+
 if __name__=='__main__':
     args = parser.parse_args()
 
     mode = args.mode
+    num_zero_speeds = args.num_zero_speeds
 
-    of_path = f'../optical-flow/{mode}/'
+    of_path = f'../{mode}/'
 
     of_map = pkl.load(open(os.path.join(of_path, f'optical_flow_map_{mode}.pkl'), 'rb'))
 
     data_list = sum(of_map.values(), [])
+
+    zero_speeds = list(filter(lambda x: x[1] == 0.0, data_list))
+
+    non_zero_speeds = list(filter(lambda x: x[1] > 0.0, data_list))
+
+    random.shuffle(zero_speeds)
+
+    if len(zero_speeds) >= int(num_zero_speeds):
+        zero_speeds = zero_speeds[:int(num_zero_speeds)]
+
+    data_list = zero_speeds + non_zero_speeds
 
     random.shuffle(data_list)
 
