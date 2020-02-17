@@ -35,7 +35,7 @@ if __name__=='__main__':
 
     random.shuffle(zero_speeds)
 
-    if len(zero_speeds) >= int(num_zero_speeds):
+    if len(zero_speeds) >= int(num_zero_speeds) and mode != 'val':
         zero_speeds = zero_speeds[:int(num_zero_speeds)]
 
     data_list = zero_speeds + non_zero_speeds
