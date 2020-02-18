@@ -29,9 +29,9 @@ if __name__=='__main__':
 
     data_list = sum(of_map.values(), [])
 
-    zero_speeds = list(filter(lambda x: x[1] == 0.0, data_list))
+    zero_speeds = list(filter(lambda x: x[1] <= 0.5, data_list))
 
-    non_zero_speeds = list(filter(lambda x: x[1] > 0.0, data_list))
+    non_zero_speeds = list(filter(lambda x: x[1] > 0.5, data_list))
 
     random.shuffle(zero_speeds)
 
