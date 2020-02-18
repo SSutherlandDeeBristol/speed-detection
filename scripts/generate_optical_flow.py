@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     image_dir = f'../../images/{mode}/'
     vid_dir = f'../../videos/{mode}/'
-    of_dir = f'../../optical-flow/{mode}/'
+    of_dir = f'../../{mode}/'
 
     image_map = pkl.load(open(os.path.join(image_dir, f'image_map_{mode}.pkl'), 'rb'))
 
@@ -50,6 +50,12 @@ if __name__ == '__main__':
             if k in of_map.keys():
                 print(f'{k} already been processed..')
                 continue
+
+            parent_folder = os.path.join(of_dir, k)
+
+            try:
+                os.mkdir(parent_folder)
+            except FileExistsError:
 
             for j, (prev, current, speed) in enumerate(v):
                 print(f'{k}-{j} ({num_processed + 1}/{total_num_speeds})| {prev} -> {current} | {speed}m/s')
@@ -78,7 +84,7 @@ if __name__ == '__main__':
 
                 rgb = cv.cvtColor(mask, cv.COLOR_HSV2BGR)
 
-                cv.imwrite(os.path.join(of_dir, f'{k}-{j}.png'), rgb)
+                cv.imwrite(os.path.join(parent_folder, f'{k}-{j}.png'), rgb)
 
                 of_map.setdefault(k, []).append((f'{k}-{j}.png', speed))
 

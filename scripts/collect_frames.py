@@ -54,8 +54,8 @@ if __name__ == '__main__':
         for k, v in image_map:
             if not os.path.isfile(os.path.join(vid_dir, f'{k}.mov')):
                 for (prev, current, _) in v:
-                    os.remove(os.path.join(image_dir, prev))
-                    os.remove(os.path.join(image_dir, current))
+                    os.remove(os.path.join(image_dir, k, prev))
+                    os.remove(os.path.join(image_dir, k, current))
                 image_map.pop(k, None)
     else:
         # populate the json and video maps
@@ -130,11 +130,17 @@ if __name__ == '__main__':
                     if not success:
                         continue
 
+                    parent_folder = os.path.join(image_dir, key)
+
+                    try:
+                        os.mkdir(parent_folder)
+                    except FileExistsError:
+
                     prev_filename = f'{key}-{image_counter}-prev.png'
                     current_filename = f'{key}-{image_counter}-current.png'
 
-                    prev_path = os.path.join(image_dir, prev_filename)
-                    current_path = os.path.join(image_dir, current_filename)
+                    prev_path = os.path.join(parent_folder, prev_filename)
+                    current_path = os.path.join(parent_folder, current_filename)
 
                     cv.imwrite(prev_path, prev_image)
                     cv.imwrite(current_path, current_image)
