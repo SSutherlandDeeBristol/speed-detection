@@ -29,9 +29,10 @@ if torch.cuda.is_available():
 else:
     DEVICE = torch.device("cpu")
 
-def get_summary_writer_log_dir() -> str:
+def get_summary_writer_log_dir(batch_size) -> str:
     tb_log_dir_prefix = (
         f'run_'
+        f'bs_{batch_size}'
     )
     i = 0
     while i < 1000:
@@ -42,7 +43,10 @@ def get_summary_writer_log_dir() -> str:
     return str(tb_log_dir)
 
 if __name__=='__main__':
-    log_dir = get_summary_writer_log_dir()
+
+    batch_size = 32
+
+    log_dir = get_summary_writer_log_dir(batch_size)
 
     summary_writer = SummaryWriter(
                 str(log_dir),
@@ -63,13 +67,13 @@ if __name__=='__main__':
 
     train_loader = torch.utils.data.DataLoader(
         BDDDataset('../../train/', 'dataset_train.pkl', resize_transform),
-        batch_size=32, shuffle=True,
+        batch_size=batch_size, shuffle=True,
         num_workers=8, pin_memory=True
     )
 
     val_loader = torch.utils.data.DataLoader(
         BDDDataset('../../val/', 'dataset_val.pkl', resize_transform),
-        batch_size=32, shuffle=False,
+        batch_size=batch_size, shuffle=False,
         num_workers=8, pin_memory=True
     )
 
@@ -81,7 +85,7 @@ if __name__=='__main__':
                       summary_writer,
                       DEVICE)
 
-    trainer.train(10,
+    trainer.train(15,
                   2,
                   1,
                   1)
