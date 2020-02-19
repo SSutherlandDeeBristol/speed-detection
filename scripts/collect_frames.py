@@ -135,6 +135,7 @@ if __name__ == '__main__':
                     try:
                         os.mkdir(parent_folder)
                     except FileExistsError:
+                        pass
 
                     prev_filename = f'{key}-{image_counter}-prev.png'
                     current_filename = f'{key}-{image_counter}-current.png'

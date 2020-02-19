@@ -56,12 +56,13 @@ if __name__ == '__main__':
             try:
                 os.mkdir(parent_folder)
             except FileExistsError:
+                pass
 
             for j, (prev, current, speed) in enumerate(v):
-                print(f'{k}-{j} ({num_processed + 1}/{total_num_speeds})| {prev} -> {current} | {speed}m/s')
+                print(f'{k}-{j} ({num_processed + 1})| {prev} -> {current} | {speed}m/s')
 
-                prev_path = os.path.join(image_dir, prev)
-                current_path = os.path.join(image_dir, current)
+                prev_path = os.path.join(image_dir, k, prev)
+                current_path = os.path.join(image_dir, k, current)
 
                 prev_image = cv.imread(prev_path)
                 current_image = cv.imread(current_path)
