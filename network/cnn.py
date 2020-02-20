@@ -22,6 +22,7 @@ class CNN(nn.Module):
             bias=False
         )
         self.initialise_layer(self.conv1)
+        self.norm1 = nn.BatchNorm2d(24)
 
         self.conv2 = nn.Conv2d(
             in_channels=self.conv1.out_channels,
@@ -32,6 +33,7 @@ class CNN(nn.Module):
             bias=False
         )
         self.initialise_layer(self.conv2)
+        self.norm2 = nn.BatchNorm2d(36)
 
         self.conv3 = nn.Conv2d(
             in_channels=self.conv2.out_channels,
@@ -42,6 +44,7 @@ class CNN(nn.Module):
             bias=False
         )
         self.initialise_layer(self.conv3)
+        self.norm3 = nn.BatchNorm2d(48)
 
         self.conv4 = nn.Conv2d(
             in_channels=self.conv3.out_channels,
@@ -51,6 +54,7 @@ class CNN(nn.Module):
             bias=False
         )
         self.initialise_layer(self.conv4)
+        self.norm4 = nn.BatchNorm2d(64)
 
         self.conv5 = nn.Conv2d(
             in_channels=self.conv4.out_channels,
@@ -60,6 +64,7 @@ class CNN(nn.Module):
             bias=False
         )
         self.initialise_layer(self.conv5)
+        self.norm5 = nn.BatchNorm2d(64)
 
         size = int((image_height / 8) * (image_width / 8) * self.conv5.out_channels)
 
@@ -79,17 +84,17 @@ class CNN(nn.Module):
         self.initialise_layer(self.fc5)
 
     def forward(self, images) -> torch.Tensor:
-        x = F.elu(self.conv1(images))
+        x = F.elu(self.norm1(self.conv1(images)))
 
-        x = F.elu(self.conv2(x))
+        x = F.elu(self.norm2(self.conv2(x)))
 
-        x = F.elu(self.conv3(x))
+        x = F.elu(self.norm3(self.conv3(x)))
 
         x = self.dropout1(x)
 
-        x = F.elu(self.conv4(x))
+        x = F.elu(self.norm4(self.conv4(x)))
 
-        x = F.elu(self.conv5(x))
+        x = F.elu(self.norm5(self.conv5(x)))
 
         x = torch.flatten(x, start_dim=1)
 
