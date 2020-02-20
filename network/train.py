@@ -44,7 +44,7 @@ def get_summary_writer_log_dir(batch_size) -> str:
 
 if __name__=='__main__':
 
-    batch_size = 32
+    batch_size = 64
 
     log_dir = get_summary_writer_log_dir(batch_size)
 
@@ -63,7 +63,7 @@ if __name__=='__main__':
     resize_transform = transforms.Resize((image_height, image_width))
 
     optimizer = torch.optim.Adam(model.parameters(),
-                                 lr=1e-4)
+                                 lr=1e-3)
 
     train_loader = torch.utils.data.DataLoader(
         BDDDataset('../../train/', 'dataset_train.pkl', resize_transform),
@@ -86,7 +86,7 @@ if __name__=='__main__':
                       DEVICE)
 
     trainer.train(16,
-                  2,
+                  1,
                   1,
                   1)
 
