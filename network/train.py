@@ -46,7 +46,7 @@ def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
 if __name__=='__main__':
 
     batch_size = 64
-    learning_rate = 1e-3
+    learning_rate = 1e-2
 
     log_dir = get_summary_writer_log_dir(batch_size, learning_rate)
 
