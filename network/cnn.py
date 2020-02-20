@@ -10,7 +10,8 @@ class CNN(nn.Module):
         self.image_height = image_height
         self.input_channels = input_channels
 
-        self.dropout = nn.Dropout(0.5)
+        self.dropout1 = nn.Dropout(0.5)
+        self.dropout2 = nn.Dropout(0.5)
 
         self.conv1 = nn.Conv2d(
             in_channels=self.input_channels,
@@ -84,13 +85,15 @@ class CNN(nn.Module):
 
         x = F.elu(self.conv3(x))
 
-        x = self.dropout(x)
+        x = self.dropout1(x)
 
         x = F.elu(self.conv4(x))
 
         x = F.elu(self.conv5(x))
 
         x = torch.flatten(x, start_dim=1)
+
+        x = self.dropout2(x)
 
         x = F.elu(self.fc1(x))
 
