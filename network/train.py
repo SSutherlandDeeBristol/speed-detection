@@ -29,9 +29,10 @@ if torch.cuda.is_available():
 else:
     DEVICE = torch.device("cpu")
 
-def get_summary_writer_log_dir(batch_size) -> str:
+def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
     tb_log_dir_prefix = (
         f'bs_{batch_size}_'
+        f'lr_{learning_rate}_'
         f'run_'
     )
     i = 0
@@ -45,8 +46,9 @@ def get_summary_writer_log_dir(batch_size) -> str:
 if __name__=='__main__':
 
     batch_size = 64
+    learning_rate = 1e-3
 
-    log_dir = get_summary_writer_log_dir(batch_size)
+    log_dir = get_summary_writer_log_dir(batch_size, learning_rate)
 
     summary_writer = SummaryWriter(
                 str(log_dir),
@@ -63,7 +65,7 @@ if __name__=='__main__':
     resize_transform = transforms.Resize((image_height, image_width))
 
     optimizer = torch.optim.Adam(model.parameters(),
-                                 lr=1e-3)
+                                 lr=learning_rate)
 
     train_loader = torch.utils.data.DataLoader(
         BDDDataset('../../train/', 'dataset_train.pkl', resize_transform),
