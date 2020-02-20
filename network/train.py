@@ -31,7 +31,7 @@ else:
 
 def get_summary_writer_log_dir(batch_size) -> str:
     tb_log_dir_prefix = (
-        f'bs_{batch_size}'
+        f'bs_{batch_size}_'
         f'run_'
     )
     i = 0
