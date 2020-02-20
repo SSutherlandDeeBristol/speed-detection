@@ -29,6 +29,21 @@ if torch.cuda.is_available():
 else:
     DEVICE = torch.device("cpu")
 
+parser = argparse.ArgumentParser(
+    description="Train the CNN.",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+parser.add_argument('--lr',
+                    default=1e-3,
+                    type=float,
+                    help="Learning Rate.")
+
+parser.add_argument('--bs',
+                    default=64,
+                    type=int,
+                    help="Batch size.")
+
+
 def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
     tb_log_dir_prefix = (
         f'bs_{batch_size}_'
@@ -45,8 +60,10 @@ def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
 
 if __name__=='__main__':
 
-    batch_size = 64
-    learning_rate = 1e-2
+    args = parser.parse_args()
+
+    batch_size = args.bs
+    learning_rate = args.lr
 
     log_dir = get_summary_writer_log_dir(batch_size, learning_rate)
 
