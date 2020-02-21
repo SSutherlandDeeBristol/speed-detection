@@ -108,7 +108,7 @@ class CNN(nn.Module):
 
         x = F.elu(self.fc4(x))
 
-        x = self.fc5(x)
+        x = 45 * F.tanh(self.self.fc5(x))
 
         return x
 
