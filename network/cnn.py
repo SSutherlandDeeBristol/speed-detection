@@ -112,7 +112,7 @@ class CNN(nn.Module):
 
         print(x, flush=True)
 
-        x = F.tanh(x) * 45.0
+        x = F.tanh(x / 100) * 45.0
 
         print(x, flush=True)
 
