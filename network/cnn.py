@@ -83,6 +83,8 @@ class CNN(nn.Module):
         self.fc5 = nn.Linear(10, 1)
         self.initialise_layer(self.fc5)
 
+        self.tan = torch.Tanh()
+
     def forward(self, images) -> torch.Tensor:
         x = F.elu(self.norm1(self.conv1(images)))
 
@@ -110,7 +112,7 @@ class CNN(nn.Module):
 
         x = self.fc5(x)
 
-        x = F.tanh(x / 100) * 45.0
+        x = self.tan(x / 100) * 45.0
 
         return x
 
