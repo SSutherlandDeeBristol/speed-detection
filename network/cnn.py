@@ -110,11 +110,7 @@ class CNN(nn.Module):
 
         x = self.fc5(x)
 
-        print(x, flush=True)
-
         x = F.tanh(x / 100) * 45.0
-
-        print(x, flush=True)
 
         return x
 
