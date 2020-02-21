@@ -33,6 +33,8 @@ if __name__ == '__main__':
 
     of_map = {} if not os.path.isfile(of_map_file) else pkl.load(open(of_map_file, 'rb'))
 
+    new_files = []
+
     if args.clean:
         for k, v in of_map:
             if not os.path.isfile(os.path.join(vid_dir, f'{k}.mov')):
@@ -52,6 +54,9 @@ if __name__ == '__main__':
                 continue
 
             parent_folder = os.path.join(of_dir, k)
+
+            if k not in new_files:
+                new_files.append(k)
 
             try:
                 os.mkdir(parent_folder)
@@ -92,3 +97,4 @@ if __name__ == '__main__':
                 num_processed += 1
 
     pkl.dump(of_map, open(os.path.join(of_dir, f'optical_flow_map_{mode}.pkl'), 'wb'))
+    pkl.dump(new_files, open(os.path.join(of_dir, f'new_files_{mode}.pkl'), 'wb'))
