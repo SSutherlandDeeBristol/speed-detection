@@ -92,7 +92,7 @@ class CNN(nn.Module):
 
         x = F.elu(self.norm3(self.conv3(x)))
 
-        x = self.dropout1(x)
+        # x = self.dropout1(x)
 
         x = F.elu(self.norm4(self.conv4(x)))
 
@@ -100,7 +100,7 @@ class CNN(nn.Module):
 
         x = torch.flatten(x, start_dim=1)
 
-        x = self.dropout2(x)
+        # x = self.dropout2(x)
 
         x = F.elu(self.fc1(x))
 
