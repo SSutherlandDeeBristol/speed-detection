@@ -1,0 +1,19 @@
+bs_64_lr_0.001_run_0:
+    3000 vid training set
+    BN (1,2,3,4,5) and Dropout (after 3, after 5)
+    Nothing applied to output
+
+bs_64_lr_0.001_run_9:
+    3000 vid training set
+    BN (1,2,3,4,5) and Dropout (after 3, after 5)
+    Output put through tanh(x / 100) * 45
+
+bs_64_lr_0.0001_run_0:
+    3000 vid training set
+    BN (1,2,3,4,5) and Dropout (after 3, after 5)
+    Output put through tanh(x / 100) * 45
+
+bs_64_lr_0.001_run_10:
+    3000 vid training set
+    BN (1,2,3,4,5)
+    Output put through tanh(x / 100) * 45
