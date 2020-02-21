@@ -27,7 +27,7 @@ bs_64_lr_0.001_run_12:
     BN (1,2,3,4,5)
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
-    Final Loss:
+    Final Loss: 11.59
 
 bs_64_lr_0.001_run_13:
     4000 vid training set
@@ -49,9 +49,16 @@ bs_64_lr_0.001_run_16:
     ReLU instead of ELU
     Final Loss:
 
-bs_64_lr_0.001_run_16:
+bs_64_lr_0.001_run_17:
     4000 vid training set
     BN (1,2,3,4,5)
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Final Loss:
+
+bs_64_lr_0.001_run_18:
+4000 vid training set
+BN (1,2,3,4,5) and Dropout (after 5)
+Output put through tanh(x / 100) * 45
+ReLU instead of ELU
+Final Loss:
