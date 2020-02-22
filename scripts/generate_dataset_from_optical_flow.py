@@ -14,14 +14,14 @@ parser.add_argument('--mode',
                     help='train/val/test',
                     required=True)
 
-parser.add_argument('--num-zero-speeds',
+parser.add_argument('--size',
                     required=True)
 
 if __name__=='__main__':
     args = parser.parse_args()
 
     mode = args.mode
-    num_zero_speeds = args.num_zero_speeds
+    size = args.size
 
     of_path = f'../../{mode}/'
 
@@ -34,9 +34,11 @@ if __name__=='__main__':
     non_zero_speeds = list(filter(lambda x: x[1] > 0.5, data_list))
 
     random.shuffle(zero_speeds)
+    random.shuffle(non_zero_speeds)
 
-    if len(zero_speeds) >= int(num_zero_speeds) and mode != 'val':
-        zero_speeds = zero_speeds[:int(num_zero_speeds)]
+    if mode != 'val':
+        zero_speeds = zero_speeds[:int(size/20)]
+        non_zero_speeds = non_zero_speeds[:int(size/20) * 19]
 
     data_list = zero_speeds + non_zero_speeds
 
