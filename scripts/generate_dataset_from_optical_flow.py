@@ -37,8 +37,8 @@ if __name__=='__main__':
     random.shuffle(non_zero_speeds)
 
     if mode != 'val':
-        zero_speeds = zero_speeds[:int(size/20)]
-        non_zero_speeds = non_zero_speeds[:int(size/20) * 19]
+        zero_speeds = zero_speeds[:int(size)//20]
+        non_zero_speeds = non_zero_speeds[:(int(size20) * 19)//20]
 
     data_list = zero_speeds + non_zero_speeds
 
