@@ -81,7 +81,7 @@ if __name__=='__main__':
 
     resize_transform = transforms.Resize((image_height, image_width))
 
-    optimizer = torch.optim.AdamW(model.parameters(),
+    optimizer = torch.optim.Adam(model.parameters(),
                                  lr=learning_rate)
 
     train_loader = torch.utils.data.DataLoader(

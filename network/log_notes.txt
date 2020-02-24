@@ -98,3 +98,20 @@ bs_64_lr_0.001_run_34:
     ReLU instead of ELU
     AdamW
     Final Loss:
+
+bs_64_lr_0.001_run_35:
+    75000 training set
+    BN (1,2,3,4,5) and Dropout (after 5)
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    AdamW
+    Sigmoid fc4 and no divide by 100 into tanh
+    Final Loss:
+
+bs_64_lr_0.001_run_36:
+    75000 training set
+    BN (1,2,3,4,5) and Dropout (after 5)
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    No fc3 or fc4
+    Final Loss:
