@@ -82,11 +82,11 @@ bs_64_lr_0.001_run_27:
     BN (1,2,3,4,5) and Dropout (after 5), 128 kernels for layer 5
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
-    Final Loss: 9.6
+    Final Loss:
 
 bs_64_lr_0.001_run_28:
     75000 training set
     BN (1,2,3,4,5) and Dropout (after 5), max pool after layer 4
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
-    Final Loss: 9.6
+    Final Loss:

@@ -2,6 +2,7 @@ import torch
 import numpy as np
 from torch import nn
 from torch.nn import functional as F
+import math
 
 class CNN(nn.Module):
     def __init__(self, image_width, image_height, input_channels):
@@ -56,17 +57,19 @@ class CNN(nn.Module):
         self.initialise_layer(self.conv4)
         self.norm4 = nn.BatchNorm2d(64)
 
+        self.pool = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
+
         self.conv5 = nn.Conv2d(
             in_channels=self.conv4.out_channels,
-            out_channels=128,
+            out_channels=64,
             kernel_size=(3, 3),
             padding=(1, 1),
             bias=False
         )
         self.initialise_layer(self.conv5)
-        self.norm5 = nn.BatchNorm2d(128)
+        self.norm5 = nn.BatchNorm2d(64)
 
-        size = int((image_height / 8) * (image_width / 8) * self.conv5.out_channels)
+        size = int((math.floor(image_height/16) + 1) * (math.floor(image_width/16) + 1)) * self.conv5.out_channels
 
         self.fc1 = nn.Linear(size, 1164)
         self.initialise_layer(self.fc1)
@@ -95,6 +98,8 @@ class CNN(nn.Module):
         # x = self.dropout1(x)
 
         x = F.relu(self.norm4(self.conv4(x)))
+
+        x = self.pool(x)
 
         x = F.relu(self.norm5(self.conv5(x)))
 
