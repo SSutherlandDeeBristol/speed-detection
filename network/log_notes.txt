@@ -91,7 +91,7 @@ bs_64_lr_0.001_run_28:
     ReLU instead of ELU
     Final Loss:
 
-bs_64_lr_0.001_run_29:
+bs_64_lr_0.001_run_32:
     75000 training set
     BN (1,2,3,4,5) and Dropout (after 5)
     Output put through tanh(x / 100) * 45
