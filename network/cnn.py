@@ -113,11 +113,11 @@ class CNN(nn.Module):
 
         x = F.relu(self.fc3(x))
 
-        x = F.relu(self.fc4(x))
+        x = F.sigmoid(self.fc4(x))
 
         x = self.fc5(x)
 
-        x = self.tan(x / 100) * 45.0
+        x = self.tan(x) * 45.0
 
         return x
 
