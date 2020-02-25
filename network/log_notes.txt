@@ -82,14 +82,14 @@ bs_64_lr_0.001_run_27:
     BN (1,2,3,4,5) and Dropout (after 5), 128 kernels for layer 5
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
-    Final Loss:
+    Final Loss: 10.47
 
 bs_64_lr_0.001_run_28:
     75000 training set
-    BN (1,2,3,4,5) and Dropout (after 5), max pool after layer 4
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool (after 4)
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
-    Final Loss:
+    Final Loss: 8.49
 
 bs_64_lr_0.001_run_34:
     75000 training set
@@ -97,7 +97,7 @@ bs_64_lr_0.001_run_34:
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     AdamW
-    Final Loss:
+    Final Loss: 9.81
 
 bs_64_lr_0.001_run_35:
     75000 training set
@@ -106,7 +106,7 @@ bs_64_lr_0.001_run_35:
     ReLU instead of ELU
     AdamW
     Sigmoid fc4 and no divide by 100 into tanh
-    Final Loss:
+    Final Loss: 47.06
 
 bs_64_lr_0.001_run_36:
     75000 training set
@@ -114,4 +114,11 @@ bs_64_lr_0.001_run_36:
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     No fc3 or fc4
-    Final Loss:
+    Final Loss: 1465
+
+bs_64_lr_0.001_run_37:
+    75000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool (after 2 and 4), Stride (1,1) for all conv
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Final Loss: 1465
