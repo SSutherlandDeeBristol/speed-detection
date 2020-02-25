@@ -101,7 +101,7 @@ class CNN(nn.Module):
 
         x = F.relu(self.norm3(self.conv3(x)))
 
-        x = self.dropout1(x)
+        # x = self.dropout1(x)
 
         x = F.relu(self.norm4(self.conv4(x)))
 

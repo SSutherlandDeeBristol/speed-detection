@@ -20,6 +20,7 @@ if __name__=='__main__':
     of_map = pkl.load(open(f'../../{args.mode}/dataset_{args.mode}.pkl', 'rb'))
 
     print(of_map)
+    print(max([s for _,s in of_map.values()]))
 
     plt.hist([s for _,s in of_map.values()], bins='auto')
     plt.title(f'Histogram of speeds in the {args.mode} set.')
