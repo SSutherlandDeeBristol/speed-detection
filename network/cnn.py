@@ -71,9 +71,9 @@ class CNN(nn.Module):
 
         self.pool2 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
 
-        size = int((math.floor(image_height/16)) * (math.floor(image_width/16))) * self.conv5.out_channels
+        # size = int((math.ceil(image_height/32) + 1) * (math.ceil(image_width/32) + 1)) * self.conv5.out_channels
 
-        self.fc1 = nn.Linear(size, 1164)
+        self.fc1 = nn.Linear(62976, 1164)
         self.initialise_layer(self.fc1)
 
         self.fc2 = nn.Linear(1164, 100)
@@ -85,7 +85,7 @@ class CNN(nn.Module):
         self.fc4 = nn.Linear(50, 10)
         self.initialise_layer(self.fc4)
 
-        self.fc5 = nn.Linear(100, 1)
+        self.fc5 = nn.Linear(10, 1)
         self.initialise_layer(self.fc5)
 
         self.tan = nn.Tanh()
