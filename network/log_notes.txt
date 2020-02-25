@@ -125,6 +125,7 @@ bs_64_lr_0.001_run_42:
     ReLU instead of ELU
     Adam
     Final Loss:
+    Notes: Was best so far up to epoch 4 then started to overfit (maybe try with more regularisation)
 
 bs_64_lr_0.001_run_43:
     75000 training set
@@ -137,6 +138,14 @@ bs_64_lr_0.001_run_43:
 bs_64_lr_0.001_run_44:
     75000 training set
     BN (1,2,3,4,5) and Dropout (after 3 and 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    Final Loss:
+
+bs_64_lr_0.001_run_45:
+    75000 training set
+    BN (1,2,3,4,5) and Dropout (after 3 and 5), Max-Pool after 2
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Adam
