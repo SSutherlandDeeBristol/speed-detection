@@ -11,6 +11,7 @@ class CNN(nn.Module):
         self.image_height = image_height
         self.input_channels = input_channels
 
+        self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
 
         self.conv1 = nn.Conv2d(
@@ -72,7 +73,7 @@ class CNN(nn.Module):
 
         # self.pool2 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
 
-        # size = int((math.ceil(image_height/32) + 1) * (math.ceil(image_width/32) + 1)) * self.conv5.out_channels
+        # size = int((math.floor(image_height/32) + 1) * (math.floor(image_width/32) + 1)) * self.conv5.out_channels
 
         self.fc1 = nn.Linear(60352, 1164)
         self.initialise_layer(self.fc1)
@@ -99,6 +100,8 @@ class CNN(nn.Module):
         x = F.relu(self.norm3(self.conv3(x)))
 
         x = self.pool1(x)
+
+        x = self.dropout1(x)
 
         x = F.relu(self.norm4(self.conv4(x)))
 
