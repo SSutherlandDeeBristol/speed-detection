@@ -174,3 +174,11 @@ bs_64_lr_0.001_run_48:
     ReLU instead of ELU
     Adam
     Final Loss:
+
+bs_64_lr_0.001_run_49:
+    75000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 2
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    Final Loss:
