@@ -116,10 +116,17 @@ bs_64_lr_0.001_run_36:
     No fc3 or fc4
     Final Loss: 1465
 
-bs_64_lr_0.001_run_40:
+bs_64_lr_0.001_run_41:
     75000 training set
     BN (1,2,3,4,5) and Dropout (after 5), Max-Pool (after 3, 5)
-    Stride (2,2) for first 2 conv (1,1) for 3,4,5
+    Stride (2,2) for 1,2 and (1,1) for 3,4,5
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Final Loss:
+
+bs_64_lr_0.001_run_42:
+    75000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Final Loss:

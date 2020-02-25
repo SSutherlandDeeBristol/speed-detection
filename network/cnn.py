@@ -40,7 +40,7 @@ class CNN(nn.Module):
             out_channels=48,
             kernel_size=(5, 5),
             padding=(2, 2),
-            stride=(1, 1),
+            stride=(2, 2),
             bias=False
         )
         self.initialise_layer(self.conv3)
@@ -53,6 +53,7 @@ class CNN(nn.Module):
             out_channels=64,
             kernel_size=(3, 3),
             padding=(1, 1),
+            stride=(1, 1),
             bias=False
         )
         self.initialise_layer(self.conv4)
@@ -69,11 +70,11 @@ class CNN(nn.Module):
         self.initialise_layer(self.conv5)
         self.norm5 = nn.BatchNorm2d(64)
 
-        self.pool2 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
+        # self.pool2 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
 
         # size = int((math.ceil(image_height/32) + 1) * (math.ceil(image_width/32) + 1)) * self.conv5.out_channels
 
-        self.fc1 = nn.Linear(62976, 1164)
+        self.fc1 = nn.Linear(60352, 1164)
         self.initialise_layer(self.fc1)
 
         self.fc2 = nn.Linear(1164, 100)
@@ -103,7 +104,7 @@ class CNN(nn.Module):
 
         x = F.relu(self.norm5(self.conv5(x)))
 
-        x = self.pool2(x)
+        # x = self.pool2(x)
 
         x = torch.flatten(x, start_dim=1)
 
