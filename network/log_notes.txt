@@ -141,7 +141,7 @@ bs_64_lr_0.001_run_44:
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Adam
-    Final Loss:
+    Final Loss: 8.55
 
 bs_64_lr_0.001_run_45:
     75000 training set
@@ -149,9 +149,9 @@ bs_64_lr_0.001_run_45:
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Adam
-    Final Loss:
+    Final Loss: 8.27
 
-bs_64_lr_0.001_run_46:
+bs_64_lr_0.001_run_50:
     85000 training set but with fewer zeros
     BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
     Output put through tanh(x / 100) * 45
@@ -159,7 +159,7 @@ bs_64_lr_0.001_run_46:
     Adam
     Final Loss:
 
-bs_64_lr_0.001_run_47:
+bs_64_lr_0.001_run_51:
     85000 training set but with fewer zeros
     BN (1,2,3,4,5) and Dropout (after 5, after fc1), Max-Pool after 3
     Output put through tanh(x / 100) * 45
@@ -167,7 +167,7 @@ bs_64_lr_0.001_run_47:
     Adam
     Final Loss:
 
-bs_64_lr_0.001_run_48:
+bs_64_lr_0.001_run_52:
     85000 training set but with fewer zeros
     BN (1,2,3,4,5) and Dropout (after 5, after fc1), Max-Pool after 2
     Output put through tanh(x / 100) * 45
@@ -175,7 +175,7 @@ bs_64_lr_0.001_run_48:
     Adam
     Final Loss:
 
-bs_64_lr_0.001_run_49:
+bs_64_lr_0.001_run_53:
     75000 training set
     BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 2
     Output put through tanh(x / 100) * 45
