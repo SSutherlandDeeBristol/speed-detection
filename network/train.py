@@ -88,7 +88,7 @@ if __name__=='__main__':
 
     train_loader = torch.utils.data.DataLoader(
         BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform,
-                                                                            affine_transform])),
+                                                                            perspective_transform])),
         batch_size=batch_size, shuffle=True,
         num_workers=8, pin_memory=True
     )
