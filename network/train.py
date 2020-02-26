@@ -81,7 +81,7 @@ if __name__=='__main__':
 
     resize_transform = transforms.Resize((image_height, image_width))
     affine_transform = transforms.RandomAffine(degrees=10)
-    perspective_transform = transforms.RandomPerspective(p=0.2, distortion_scale=0.2)
+    perspective_transform = transforms.RandomPerspective(p=0.2, distortion_scale=0.5)
 
     optimizer = torch.optim.Adam(model.parameters(),
                                  lr=learning_rate)
