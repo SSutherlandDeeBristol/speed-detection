@@ -121,8 +121,6 @@ class CNN(nn.Module):
 
         x = F.relu(self.fc2(x))
 
-        x = self.dropout4(x)
-
         x = F.relu(self.fc3(x))
 
         x = F.relu(self.fc4(x))
