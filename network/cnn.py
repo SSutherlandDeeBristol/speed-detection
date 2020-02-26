@@ -14,6 +14,7 @@ class CNN(nn.Module):
         self.dropout1 = nn.Dropout(0.5)
         self.dropout2 = nn.Dropout(0.5)
         self.dropout3 = nn.Dropout(0.5)
+        self.dropout4 = nn.Dropout(0.5)
 
         self.conv1 = nn.Conv2d(
             in_channels=self.input_channels,
@@ -119,6 +120,8 @@ class CNN(nn.Module):
         x = self.dropout3(x)
 
         x = F.relu(self.fc2(x))
+
+        x = self.dropout4(x)
 
         x = F.relu(self.fc3(x))
 
