@@ -189,7 +189,7 @@ bs_64_lr_0.001_run_51:
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Adam
-    Final Loss:
+    Final Loss: 14.8
 
 bs_64_lr_0.001_run_52:
     85000 training set but with fewer zeros
@@ -197,4 +197,4 @@ bs_64_lr_0.001_run_52:
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Adam
-    Final Loss:
+    Final Loss: 18.5
