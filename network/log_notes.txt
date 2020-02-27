@@ -287,3 +287,12 @@ bs_64_lr_0.001_run_62:
     Adam
     RandomAffine(translate=(0,0.2))
     Final Loss:
+
+bs_64_lr_0.001_run_63:
+    100000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    RandomAffine(degrees=20)
+    Final Loss:
