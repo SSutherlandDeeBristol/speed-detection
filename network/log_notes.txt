@@ -277,7 +277,7 @@ bs_64_lr_0.001_run_61:
     ReLU instead of ELU
     Adam
     RandomAffine(degrees=10, translate=(0,0.2))
-    Final Loss:
+    Final Loss: 6.223
 
 bs_64_lr_0.001_run_63:
     100000 training set
@@ -286,7 +286,7 @@ bs_64_lr_0.001_run_63:
     ReLU instead of ELU
     Adam
     RandomAffine(translate=(0,0.2))
-    Final Loss:
+    Final Loss: 6.14
 
 bs_64_lr_0.001_run_64:
     100000 training set
@@ -295,17 +295,7 @@ bs_64_lr_0.001_run_64:
     ReLU instead of ELU
     Adam
     RandomAffine(degrees=20)
-    Final Loss:
-
-bs_64_lr_0.001_run_66:
-    100000 training set
-    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
-    Output put through tanh(x / 100) * 45
-    ReLU instead of ELU
-    Adam
-    RandomAffine(degrees=15)
-    128 kernels conv5
-    Final Loss:
+    Final Loss: 6.37
 
 bs_64_lr_0.001_run_67:
     100000 training set
@@ -315,4 +305,14 @@ bs_64_lr_0.001_run_67:
     Adam
     RandomAffine(degrees=15, translate=(0,0.1))
     36,48,64 Conv1 - Conv3, 64 Conv4
+    Final Loss: 6.24
+
+bs_64_lr_0.001_run_68:
+    100000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    RandomAffine(degrees=15, translate=(0,0.1))
+    128 kernels conv5
     Final Loss:
