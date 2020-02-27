@@ -64,7 +64,7 @@ class CNN(nn.Module):
 
         self.conv5 = nn.Conv2d(
             in_channels=self.conv4.out_channels,
-            out_channels=64,
+            out_channels=128,
             kernel_size=(3, 3),
             padding=(1, 1),
             stride=(1, 1),
@@ -77,7 +77,8 @@ class CNN(nn.Module):
 
         # size = int((math.floor(image_height/32) + 1) * (math.floor(image_width/32) + 1)) * self.conv5.out_channels
 
-        self.fc1 = nn.Linear(60352, 1164)
+        # self.fc1 = nn.Linear(60352, 1164)
+        self.fc1 = nn.Linear(120704, 1164)
         self.initialise_layer(self.fc1)
 
         self.fc2 = nn.Linear(1164, 100)
