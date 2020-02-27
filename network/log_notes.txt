@@ -241,7 +241,7 @@ bs_64_lr_0.001_run_57:
     ReLU instead of ELU
     Adam
     RandomPerspective(p=0.5, distortion_scale=0.5)
-    Final Loss:
+    Final Loss: 7.02
 
 bs_64_lr_0.001_run_58:
     100000 training set
@@ -250,13 +250,22 @@ bs_64_lr_0.001_run_58:
     ReLU instead of ELU
     Adam
     RandomAffine(degrees=15)
-    Final Loss:
+    Final Loss: 6.75
 
-bs_64_lr_0.001_run_58:
+bs_64_lr_0.001_run_59:
     100000 training set
     BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Adam
     RandomAffine(degrees=10, translate=(0,0.1))
-    Final Loss:
+    Final Loss: 6.78
+
+bs_64_lr_0.001_run_60:
+    100000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    RandomAffine(degrees=10, translate=(0,0.2))
+    Final Loss: 6.78
