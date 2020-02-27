@@ -267,5 +267,5 @@ bs_64_lr_0.001_run_60:
     Output put through tanh(x / 100) * 45
     ReLU instead of ELU
     Adam
-    RandomAffine(degrees=10, translate=(0,0.2))
-    Final Loss: 6.78
+    RandomAffine(degrees=15, translate=(0,0.1))
+    Final Loss:
