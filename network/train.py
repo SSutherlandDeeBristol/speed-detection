@@ -80,7 +80,7 @@ if __name__=='__main__':
     model = CNN(image_width, image_height, 3)
 
     resize_transform = transforms.Resize((image_height, image_width))
-    affine_transform = transforms.RandomAffine(degrees=0, translate=(0,0.2))
+    affine_transform = transforms.RandomAffine(degrees=20)
     perspective_transform = transforms.RandomPerspective(p=0.5, distortion_scale=0.5)
 
     optimizer = torch.optim.Adam(model.parameters(),
