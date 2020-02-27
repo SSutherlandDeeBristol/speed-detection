@@ -80,7 +80,7 @@ if __name__=='__main__':
     model = CNN(image_width, image_height, 3)
 
     resize_transform = transforms.Resize((image_height, image_width))
-    affine_transform = transforms.RandomAffine(degrees=10)
+    affine_transform = transforms.RandomAffine(degrees=15)
     perspective_transform = transforms.RandomPerspective(p=0.5, distortion_scale=0.5)
 
     optimizer = torch.optim.Adam(model.parameters(),
@@ -88,7 +88,7 @@ if __name__=='__main__':
 
     train_loader = torch.utils.data.DataLoader(
         BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform,
-                                                                            perspective_transform])),
+                                                                            affine_transform])),
         batch_size=batch_size, shuffle=True,
         num_workers=8, pin_memory=True
     )
