@@ -297,7 +297,7 @@ bs_64_lr_0.001_run_64:
     RandomAffine(degrees=20)
     Final Loss:
 
-bs_64_lr_0.001_run_65:
+bs_64_lr_0.001_run_66:
     100000 training set
     BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
     Output put through tanh(x / 100) * 45

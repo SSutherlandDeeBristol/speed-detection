@@ -71,7 +71,7 @@ class CNN(nn.Module):
             bias=False
         )
         self.initialise_layer(self.conv5)
-        self.norm5 = nn.BatchNorm2d(64)
+        self.norm5 = nn.BatchNorm2d(128)
 
         # self.pool2 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
 
