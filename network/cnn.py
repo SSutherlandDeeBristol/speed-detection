@@ -36,7 +36,7 @@ class CNN(nn.Module):
             bias=False
         )
         self.initialise_layer(self.conv2)
-        self.norm2 = nn.BatchNorm2d(36)
+        self.norm2 = nn.BatchNorm2d(48)
 
         self.conv3 = nn.Conv2d(
             in_channels=self.conv2.out_channels,
