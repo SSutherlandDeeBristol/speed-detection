@@ -4,7 +4,6 @@ import os
 import random
 import numpy as np
 import sys
-import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(
     description="Number the optical flow images and save a map for use in a DataLoader.",
@@ -30,10 +29,6 @@ if __name__=='__main__':
     of_map = pkl.load(open(os.path.join(of_path, f'optical_flow_map_{mode}.pkl'), 'rb'))
 
     data_list = sum(of_map.values(), [])
-
-    # plt.hist([s for f,s in data_list if f.startswith('000000001')], bins='auto')
-    # plt.show()
-    # sys.exit()
 
     zero_speeds = list(filter(lambda x: x[1] <= 0.5, data_list))
 
