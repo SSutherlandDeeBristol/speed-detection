@@ -324,4 +324,14 @@ bs_64_lr_0.001_run_69:
     ReLU instead of ELU
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
-    Final Loss: 6.24
+    Final Loss:
+
+bs_64_lr_0.001_run_70:
+    100000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    RandomAffine(degrees=15, translate=(0,0.1))
+    36,48,64 Conv1 - Conv3, 64 Conv4, 128 Conv5
+    Final Loss:
