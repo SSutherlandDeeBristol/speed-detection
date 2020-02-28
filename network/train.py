@@ -43,7 +43,6 @@ parser.add_argument('--bs',
                     type=int,
                     help="Batch size.")
 
-
 def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
     tb_log_dir_prefix = (
         f'bs_{batch_size}_'
