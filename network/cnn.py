@@ -19,8 +19,8 @@ class CNN(nn.Module):
         self.conv1 = nn.Conv2d(
             in_channels=self.input_channels,
             out_channels=24,
-            kernel_size=(3, 3),
-            padding=(1, 1),
+            kernel_size=(5, 5),
+            padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
@@ -30,8 +30,8 @@ class CNN(nn.Module):
         self.conv2 = nn.Conv2d(
             in_channels=self.conv1.out_channels,
             out_channels=36,
-            kernel_size=(3, 3),
-            padding=(1, 1),
+            kernel_size=(5, 5),
+            padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
@@ -41,8 +41,8 @@ class CNN(nn.Module):
         self.conv3 = nn.Conv2d(
             in_channels=self.conv2.out_channels,
             out_channels=48,
-            kernel_size=(3, 3),
-            padding=(1, 1),
+            kernel_size=(5, 5),
+            padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
@@ -54,8 +54,8 @@ class CNN(nn.Module):
         self.conv4 = nn.Conv2d(
             in_channels=self.conv3.out_channels,
             out_channels=64,
-            kernel_size=(5, 5),
-            padding=(2, 2),
+            kernel_size=(3, 3),
+            padding=(1, 1),
             stride=(1, 1),
             bias=False
         )
@@ -65,8 +65,8 @@ class CNN(nn.Module):
         self.conv5 = nn.Conv2d(
             in_channels=self.conv4.out_channels,
             out_channels=64,
-            kernel_size=(5, 5),
-            padding=(2, 2),
+            kernel_size=(3, 3),
+            padding=(1, 1),
             stride=(1, 1),
             bias=False
         )
