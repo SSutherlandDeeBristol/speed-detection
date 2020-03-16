@@ -43,6 +43,11 @@ parser.add_argument('--bs',
                     type=int,
                     help="Batch size.")
 
+def custom_loss(output, target):
+    x = target - output
+    loss = torch.mean(x**2 if x > 0 else (2*x)**2)
+    return loss
+
 def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
     tb_log_dir_prefix = (
         f'bs_{batch_size}_'
@@ -71,7 +76,8 @@ if __name__=='__main__':
                 flush_secs=5
         )
 
-    criterion = torch.nn.MSELoss()
+    #criterion = torch.nn.MSELoss()
+    criterion = custom_loss
 
     image_width = 640
     image_height = 360
