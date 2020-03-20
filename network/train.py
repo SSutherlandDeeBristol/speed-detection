@@ -46,7 +46,7 @@ parser.add_argument('--bs',
 
 def custom_loss(output, target):
     x = target - output
-    loss = torch.mean(torch.Tensor(Variable([y**2 if y > 0 else (2*y)**2 for y in x], requires_grad=True)))
+    loss = torch.mean(Variable(torch.Tensor([y**2 if y > 0 else (2*y)**2 for y in x]), requires_grad=True))
     return loss
 
 def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
