@@ -55,7 +55,7 @@ parser.add_argument('--bs',
 #         return loss
 
 def custom_loss(output, target):
-    x = target.sub(output)
+    x = output.sub(target)
     pos_mask = x.ge(0)
     neg_mask = x.lt(0)
 
