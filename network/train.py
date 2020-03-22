@@ -63,7 +63,8 @@ def custom_loss(output, target):
     neg_error = torch.masked_select(x, neg_mask)
 
     pos_error = pos_error.pow(2)
-    neg_error = torch.mul(neg_error.pow(2), 2)
+    neg_error = torch.mul(neg_error, 2)
+    neg_error = neg_error.pow(2)
 
     errors = torch.cat((pos_error, neg_error))
 
