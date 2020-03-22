@@ -65,7 +65,7 @@ def custom_loss(output, target):
     pos_error = pos_error.pow(2)
     neg_error = torch.mul(neg_error.pow(2), 2)
 
-    errors = torch.cat(pos_error, neg_error)
+    errors = torch.cat((pos_error, neg_error))
 
     loss = torch.mean(errors)
 
