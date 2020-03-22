@@ -392,5 +392,5 @@ bs_64_lr_0.001_run_76:
     ReLU instead of ELU
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
-    Loss: sum(y**2 if y > 0 else 2*(y**2) for y in x)
+    Loss: mean(y**2 if y > 0 else 2*(y**2) for y in x)
     Final Loss:

@@ -56,7 +56,7 @@ parser.add_argument('--bs',
 
 def custom_loss(output, target):
     x = output.sub(target)
-    pos_mask = x.ge(0)
+    pos_mask = x.gt(0)
     neg_mask = x.lt(0)
 
     pos_error = torch.masked_select(x, pos_mask)
@@ -67,7 +67,7 @@ def custom_loss(output, target):
 
     errors = torch.cat(pos_error, neg_error)
 
-    loss = torch.sum(errors)
+    loss = torch.mean(errors)
 
     return loss
 
