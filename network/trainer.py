@@ -100,7 +100,7 @@ class Trainer:
         print(
                 f"epoch: [{epoch}], "
                 f"step: [{epoch_step + 1}/{len(self.train_loader)}], "
-                f"batch loss (MSE): {loss:.5f}, "
+                f"batch loss: {loss:.5f}, "
                 f"data load time: "
                 f"{data_load_time:.5f}, "
                 f"step time: {step_time:.5f}",
@@ -153,18 +153,18 @@ class Trainer:
                         labels[j].item()
                     )
 
-        mse = self.criterion(torch.Tensor(total_logits), torch.Tensor(total_labels))
+        loss = self.criterion(torch.Tensor(total_logits), torch.Tensor(total_labels))
 
         self.save_logits_to_logs(epoch_num, logit_log)
 
-        self.print_validation_metrics(mse,
+        self.print_validation_metrics(loss,
                                       epoch_num)
 
-        self.log_validation_metrics(mse)
+        self.log_validation_metrics(loss)
 
     def print_validation_metrics(self, loss, epoch_num):
         print(f"epoch: {epoch_num}")
-        print(f"loss (MSE): {loss:.5f}", flush=True)
+        print(f"loss: {loss:.5f}", flush=True)
 
     def log_validation_metrics(self, loss):
         self.summary_writer.add_scalars(
