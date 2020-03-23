@@ -63,9 +63,9 @@ class Trainer:
 
                 logits = self.model.forward(batch)
 
-                labels = np.expand_dims(labels.cpu().numpy(), axis=1)
+                labels = torch.unsqueeze(labels, dim=1)
 
-                loss = self.criterion(logits.cpu(), torch.Tensor(labels))
+                loss = self.criterion(logits, labels)
 
                 loss.backward()
 
