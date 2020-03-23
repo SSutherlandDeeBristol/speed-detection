@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 
+# plt.rcParams['figure.dpi'] = 400
+
 parser = argparse.ArgumentParser(
     description="Plot a histogram of the speeds in the data.",
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -21,10 +23,16 @@ if __name__=='__main__':
 
     print(of_map)
     print(max([s for _,s in of_map.values()]))
+    print(len(of_map))
 
-    plt.hist([s for _,s in of_map.values()], bins='auto')
-    plt.title(f'Histogram of speeds in the {args.mode} set.')
-    plt.xlabel('Ground truth speed')
-    plt.ylabel('Binned frequency')
-    plt.savefig(f'{args.mode}-speed-histogram.png', dpi=400)
-    plt.show()
+    dpi = 300
+    plt.figure(dpi=dpi, figsize=(18, 6))
+    # plt.title(f'Histogram of speeds in the {args.mode}ing set.', fontsize=16)
+    plt.xlabel('Ground truth speed ($ms^{-1}$)', fontsize=30, labelpad=30)
+    plt.xticks(fontsize=24)
+    plt.ylabel('Binned frequency', fontsize=30, labelpad=30)
+    plt.yticks(fontsize=24)
+    plt.hist([s for _,s in of_map.values()], bins='auto', color='#80A1C1')
+    plt.tight_layout()
+    plt.savefig(f'{args.mode}-speed-histogram.png', dpi=dpi, transparent=True, bbox_inches=None)
+    # plt.show()

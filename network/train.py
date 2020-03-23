@@ -44,16 +44,6 @@ parser.add_argument('--bs',
                     type=int,
                     help="Batch size.")
 
-# class custom_loss(torch.nn.Module):
-
-#     def __init__(self):
-#         super(custom_loss,self).__init__()
-
-#     def forward(self, output, target):
-#         x = Variable(target - output, requires_grad=True)
-#         loss = torch.sum(Variable(torch.Tensor([y**2 if y > 0 else 2*(y**2) for y in x]), requires_grad=True))
-#         return loss
-
 def custom_loss(output, target):
     x = output.sub(target)
     pos_mask = x.ge(0)
@@ -63,12 +53,11 @@ def custom_loss(output, target):
     neg_error = torch.masked_select(x, neg_mask)
 
     pos_error = pos_error.pow(2)
-    neg_error = torch.mul(neg_error, 2)
-    neg_error = neg_error.pow(2)
+    neg_error = torch.mul(neg_error.pow(2), 2)
 
     errors = torch.cat((pos_error, neg_error))
 
-    loss = torch.mean(errors)
+    loss = torch.sum(errors)
 
     return loss
 
