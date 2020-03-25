@@ -44,6 +44,25 @@ parser.add_argument('--bs',
                     type=int,
                     help="Batch size.")
 
+def truncated_sum(output, target):
+    x = output.sub(target)
+    x = torch.clamp(x, -10, 10)
+
+    pos_mask = x.ge(0)
+    neg_mask = x.lt(0)
+
+    pos_error = torch.masked_select(x, pos_mask)
+    neg_error = torch.masked_select(x, neg_mask)
+
+    pos_error = pos_error.pow(2)
+    neg_error = torch.mul(neg_error.pow(2), 2)
+
+    errors = torch.cat((pos_error, neg_error))
+
+    loss = torch.sum(errors)
+
+    return loss
+
 def truncated_mse(output, target):
     x = output.sub(target)
     x = torch.clamp(x, -10, 10)
@@ -119,8 +138,9 @@ if __name__=='__main__':
 
     #criterion = torch.nn.MSELoss()
     #criterion = custom_loss
-    criterion = truncated_mse
+    #criterion = truncated_mse
     #criterion = truncated_loss
+    criterion = truncated_sum
 
     image_width = 640
     image_height = 360
