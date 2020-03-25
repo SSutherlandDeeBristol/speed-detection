@@ -443,7 +443,7 @@ bs_64_lr_0.001_run_83:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: truncated_sum (-10,10)
-    Final Loss: 
+    Final Loss (MSE): 
 
 bs_64_lr_0.001_run_84:
     100000 training set
@@ -453,7 +453,7 @@ bs_64_lr_0.001_run_84:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: truncated_sum (-10,10)
-    Final Loss: 
+    Final Loss (MSE): 
 
 bs_64_lr_0.001_run_85:
     100000 training set
@@ -463,7 +463,7 @@ bs_64_lr_0.001_run_85:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: SmoothL1Loss
-    Final Loss: 
+    Final Loss (MSE): 
 
 bs_64_lr_0.001_run_86:
     100000 training set
@@ -473,4 +473,4 @@ bs_64_lr_0.001_run_86:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: truncated_mse (-8,8)
-    Final Loss (MSE):
+    Final Loss (MSE): 
