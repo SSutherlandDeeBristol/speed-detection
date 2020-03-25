@@ -44,6 +44,15 @@ parser.add_argument('--bs',
                     type=int,
                     help="Batch size.")
 
+def truncated_mse(output, target):
+    x = output.sub(target)
+    x = torch.clamp(x, -10, 10)
+    x = x.pow(2)
+
+    loss = torch.mean(x)
+
+    return loss
+
 def truncated_loss(output, target):
     x = output.sub(target)
     x = torch.clamp(x, -10, 10)
@@ -110,7 +119,8 @@ if __name__=='__main__':
 
     #criterion = torch.nn.MSELoss()
     #criterion = custom_loss
-    criterion = truncated_loss
+    criterion = truncated_mse
+    #criterion = truncated_loss
 
     image_width = 640
     image_height = 360

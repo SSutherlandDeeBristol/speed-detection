@@ -393,7 +393,7 @@ bs_64_lr_0.001_run_78:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: mean(y**2 if y > 0 else 2*(y**2) for y in x)
-    Final Loss: 8.89
+    Final Loss: 6.17
 
 bs_64_lr_0.001_run_79:
     100000 training set
@@ -403,7 +403,7 @@ bs_64_lr_0.001_run_79:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: mean(y**2 if y > 0 else (2*y)**2 for y in x)
-    Final Loss:
+    Final Loss: 9.14
 
 bs_64_lr_0.001_run_80:
     100000 training set
@@ -413,7 +413,7 @@ bs_64_lr_0.001_run_80:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: sum(y**2 if y > 0 else (2*y)**2 for y in x)
-    Final Loss:
+    Final Loss: 7.61
 
 bs_64_lr_0.001_run_81:
     100000 training set
@@ -423,4 +423,14 @@ bs_64_lr_0.001_run_81:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: truncated_loss
-    Final Loss:
+    Final Loss: 
+
+bs_64_lr_0.001_run_82:
+    100000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    RandomAffine(degrees=15, translate=(0,0.2))
+    Loss: truncated_mse
+    Final Loss: 
