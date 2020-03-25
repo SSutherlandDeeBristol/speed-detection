@@ -141,6 +141,7 @@ if __name__=='__main__':
     #criterion = truncated_mse
     #criterion = truncated_loss
     criterion = truncated_sum
+    #criterion = torch.nn.SmoothL1Loss()
 
     image_width = 640
     image_height = 360
