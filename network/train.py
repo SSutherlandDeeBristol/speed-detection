@@ -65,7 +65,7 @@ def truncated_sum(output, target):
 
 def truncated_mse(output, target):
     x = output.sub(target)
-    x = torch.clamp(x, -7.5, 7.5)
+    x = torch.clamp(x, -12.5, 12.5)
     x = x.pow(2)
 
     loss = torch.mean(x)
