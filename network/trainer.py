@@ -142,10 +142,10 @@ class Trainer:
 
                 logits = self.model(batch)
 
-                labels = np.expand_dims(labels.cpu().numpy(), axis=1)
+                labels = torch.unsqueeze(labels, dim=1)
 
                 total_logits = np.append(total_logits, logits.cpu().numpy())
-                total_labels = np.append(total_labels, labels)
+                total_labels = np.append(total_labels, labels.cpu().numpy())
 
                 for j in range(batch.shape[0]):
                     logit_log[fnames[j]] = (
