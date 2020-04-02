@@ -96,19 +96,19 @@ class CNN(nn.Module):
         self.tan = nn.Tanh()
 
     def forward(self, images) -> torch.Tensor:
-        x = F.norm1(self.relu(self.conv1(images)))
+        x = self.norm1(F.relu(self.conv1(images)))
 
-        x = F.norm2(self.relu(self.conv2(x)))
+        x = self.norm2(F.relu(self.conv2(x)))
 
-        x = F.norm3(self.relu(self.conv3(x)))
+        x = self.norm3(F.relu(self.conv3(x)))
 
         x = self.pool1(x)
 
         # x = self.dropout1(x)
 
-        x = F.norm4(self.relu(self.conv4(x)))
+        x = self.norm4(F.relu(self.conv4(x)))
 
-        x = F.norm5(self.relu(self.conv5(x)))
+        x = self.norm5(F.relu(self.conv5(x)))
 
         # x = self.pool2(x)
 
