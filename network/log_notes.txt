@@ -474,3 +474,15 @@ bs_64_lr_0.001_run_91:
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: truncated_mse (-12.5,12.5)
     Final Loss (MSE): 
+
+bs_64_lr_0.0025_run_0:
+    100000 training set
+    BN (1,2,3,4,5) and Dropout (after 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    Learning rate: 0.0025
+    RandomAffine(degrees=15, translate=(0,0.2))
+    Loss: SmoothL1Loss
+    Final Loss (MSE): 
+
