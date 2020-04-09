@@ -80,15 +80,19 @@ class CNN(nn.Module):
         self.fc1 = nn.Linear(60352, 1164)
         # self.fc1 = nn.Linear(120704, 1164)
         self.initialise_layer(self.fc1)
+        self.norm6 = nn.BatchNorm1d(1164)
 
         self.fc2 = nn.Linear(1164, 100)
         self.initialise_layer(self.fc2)
+        self.norm7 = nn.BatchNorm1d(100)
 
         self.fc3 = nn.Linear(100, 50)
         self.initialise_layer(self.fc3)
+        self.norm8 = nn.BatchNorm1d(50)
 
         self.fc4 = nn.Linear(50, 10)
         self.initialise_layer(self.fc4)
+        self.norm9 = nn.BatchNorm1d(10)
 
         self.fc5 = nn.Linear(10, 1)
         self.initialise_layer(self.fc5)
@@ -96,19 +100,19 @@ class CNN(nn.Module):
         self.tan = nn.Tanh()
 
     def forward(self, images) -> torch.Tensor:
-        x = self.norm1(F.relu(self.conv1(images)))
+        x = F.relu(self.norm1(self.conv1(images)))
 
-        x = self.norm2(F.relu(self.conv2(x)))
+        x = F.relu(self.norm2(self.conv2(x)))
 
-        x = self.norm3(F.relu(self.conv3(x)))
+        x = F.relu(self.norm3(self.conv3(x)))
 
         x = self.pool1(x)
 
         # x = self.dropout1(x)
 
-        x = self.norm4(F.relu(self.conv4(x)))
+        x = F.relu(self.norm4(self.conv4(x)))
 
-        x = self.norm5(F.relu(self.conv5(x)))
+        x = F.relu(self.norm5(self.conv5(x)))
 
         # x = self.pool2(x)
 
@@ -116,15 +120,15 @@ class CNN(nn.Module):
 
         x = self.dropout2(x)
 
-        x = F.relu(self.fc1(x))
+        x = F.relu(self.norm6(self.fc1(x)))
 
         # x = self.dropout3(x)
 
-        x = F.relu(self.fc2(x))
+        x = F.relu(self.norm7(self.fc2(x)))
 
-        x = F.relu(self.fc3(x))
+        x = F.relu(self.norm8(self.fc3(x)))
 
-        x = F.relu(self.fc4(x))
+        x = F.relu(self.norm9(self.fc4(x)))
 
         x = self.fc5(x)
 
