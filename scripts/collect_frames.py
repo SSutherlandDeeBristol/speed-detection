@@ -123,7 +123,8 @@ if __name__ == '__main__':
 
                     try:
                         success, prev_image = vid.read()
-                        prev_image = cv.rotate(prev_image, rotation)
+                        if rotation is not None:
+                            prev_image = cv.rotate(prev_image, rotation)
                     except:
                         continue
 

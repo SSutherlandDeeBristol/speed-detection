@@ -26,9 +26,9 @@ def get_rotation_correct(path):
 
 if __name__ == '__main__':
     video_key = '0a0ceca1-4148e482'
-    model_name = 'bs_64_lr_0.001_run_69'
+    model_name = 'bs_64_lr_0.001_run_85'
 
-    model_path = f'../../models/{model_name}.pt'
+    model_path = f'../logs/{model_name}/model.pt'
     video_path = f'../../speed-challenge/videos/train.mp4'
     ground_truth_path = f'../../speed-challenge/videos/train.txt'
 
@@ -103,6 +103,7 @@ if __name__ == '__main__':
         PIL_Image = np.transpose(PIL_Image, (2,1,0))
 
         PIL_Image = np.expand_dims(PIL_Image, axis=0)
+
         with torch.no_grad():
             speed = model.forward(torch.Tensor(PIL_Image))
 

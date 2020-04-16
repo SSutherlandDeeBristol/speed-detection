@@ -2,11 +2,16 @@ import pickle as pkl
 from matplotlib import pyplot as plt
 from scipy import stats
 import matplotlib.colors as mcolors
+from scipy.stats import norm
+from scipy import optimize
 import math
 import numpy as np
 
-run_name = 'bs_64_lr_0.001_run_79'
+run_name = 'bs_64_lr_0.001_run_92'
 file_name = f'../logs/{run_name}/logits/14.pkl'
+
+def x_square_fit(x, a, b, c, d):
+    return a * ((x*b)**(c)) + d
 
 if __name__ == '__main__':
     logits = pkl.load(open(file_name, 'rb'))
@@ -41,12 +46,23 @@ if __name__ == '__main__':
         l2_errors.append(l2_error)
         preds.append(pred)
 
+    (mu, sigma) = norm.fit(l2_errors)
+
     bin_means, bin_edges, binnumber = stats.binned_statistic(labels,
                 l2_errors, statistic='mean', bins=100)
+
+    for i, x in enumerate(bin_means):
+        if math.isnan(x):
+            bin_means[i] = 0
 
     plt.subplot(233)
     plt.hlines(bin_means, bin_edges[:-1], bin_edges[1:], colors='g', lw=2,
                 label='Mean of binned squared error')
+
+    xspace = np.linspace(min(labels), max(labels), 100)
+    p, p_cov = optimize.curve_fit(x_square_fit, xspace, bin_means)
+    plt.plot(xspace, x_square_fit(xspace, p[0], p[1], p[2], p[3]), color='red')
+
     plt.xlabel('Speed (m/s)')
     plt.ylabel('L2 Error')
     plt.title('Mean of binned L2 error')
@@ -64,10 +80,12 @@ if __name__ == '__main__':
     mean_error_as_fraction = np.mean(error_as_fraction)
     median_error_as_fraction = sorted(error_as_fraction)[len(error_as_fraction)//2]
 
-    print(f'Mean error/ground truth: {mean_error_as_fraction}')
-    print(f'Median error/ground truth: {median_error_as_fraction}')
-    print(f'MSE: {np.mean(l2_errors)}')
-    print(f'Mean L1 Error: {np.mean(l1_errors)}')
+    print(f'Mean error/ground truth: {mean_error_as_fraction:.3f}')
+    print(f'Median error/ground truth: {median_error_as_fraction:.3f}')
+    print(f'MSE: {np.mean(l2_errors):.3f}')
+    print(f'Median L2 Error: {np.median(l2_errors):.3f}')
+    print(f'Mean L1 Error: {np.mean(l1_errors):.3f}')
+    print(f'Median L1 Error: {np.median(l1_errors):.3f}')
 
     plt.subplot(234)
     plt.title('Binned L1 error/label')
@@ -95,4 +113,4 @@ if __name__ == '__main__':
     plt.hlines(bin_means, bin_edges[:-1], bin_edges[1:], colors='blue', lw=2,
                 label='Mean of binned l1 error')
 
-    plt.savefig(f'{run_name}.png', dpi=400, bbox_inches=None)
+    plt.savefig(f'plots_runs/{run_name}.png', dpi=400, bbox_inches=None)

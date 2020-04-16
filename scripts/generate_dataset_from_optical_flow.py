@@ -18,6 +18,9 @@ parser.add_argument('--mode',
 parser.add_argument('--size',
                     required=True)
 
+parser.add_argument('--commaai',
+                    action='store_true')
+
 if __name__=='__main__':
     args = parser.parse_args()
 

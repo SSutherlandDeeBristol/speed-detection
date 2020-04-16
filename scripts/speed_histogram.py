@@ -26,13 +26,14 @@ if __name__=='__main__':
     print(len(of_map))
 
     dpi = 300
-    plt.figure(dpi=dpi, figsize=(18, 6))
+    plt.figure(dpi=dpi, figsize=(20, 10))
+    plt.rc('font', size=32)
+
+    color = '#80A1C1' if args.mode == 'train' else 'orange'
     # plt.title(f'Histogram of speeds in the {args.mode}ing set.', fontsize=16)
-    plt.xlabel('Ground truth speed ($ms^{-1}$)', fontsize=30, labelpad=30)
-    plt.xticks(fontsize=24)
-    plt.ylabel('Binned frequency', fontsize=30, labelpad=30)
-    plt.yticks(fontsize=24)
-    plt.hist([s for _,s in of_map.values()], bins='auto', color='#80A1C1')
+    plt.xlabel('Ground truth speed ($ms^{-1}$)', fontsize=34, labelpad=30)
+    plt.ylabel('Binned frequency', fontsize=34, labelpad=30)
+    plt.hist([s for _,s in of_map.values()], bins='auto', color=color)
     plt.tight_layout()
-    plt.savefig(f'{args.mode}-speed-histogram.png', dpi=dpi, transparent=True, bbox_inches=None)
+    plt.savefig(f'plots_{args.mode}/{args.mode}-speed-histogram.png', dpi=dpi, transparent=True, bbox_inches=None)
     # plt.show()
