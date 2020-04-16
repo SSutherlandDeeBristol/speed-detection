@@ -463,7 +463,7 @@ bs_64_lr_0.001_run_90:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: truncated_mse (-7.5,7.5)
-    Final Loss (MSE): 
+    Final Loss (MSE): 8.66
 
 bs_64_lr_0.0001_run_10:
     100000 training set
@@ -505,4 +505,14 @@ bs_64_lr_0.001_run_92:
     Adam
     RandomAffine(degrees=15, translate=(0,0.2))
     Loss: SmoothL1Loss
-    Final Loss (MSE): 
+    Final Loss (MSE): 6.015
+
+bs_64_lr_0.001_run_93:
+    100000 training set
+    BN (1,2,3,4,5,6,7,8,9), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
+    Adam
+    RandomAffine(degrees=15, translate=(0,0.2))
+    Loss: SmoothL1Loss
+    Final Loss (MSE):

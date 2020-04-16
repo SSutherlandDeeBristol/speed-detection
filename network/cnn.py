@@ -118,7 +118,7 @@ class CNN(nn.Module):
 
         x = torch.flatten(x, start_dim=1)
 
-        x = self.dropout2(x)
+        # x = self.dropout2(x)
 
         x = F.relu(self.norm6(self.fc1(x)))
 
