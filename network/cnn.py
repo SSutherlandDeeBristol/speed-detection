@@ -18,36 +18,36 @@ class CNN(nn.Module):
 
         self.conv1 = nn.Conv2d(
             in_channels=self.input_channels,
-            out_channels=24,
-            kernel_size=(5, 5),
-            padding=(2, 2),
-            stride=(2, 2),
-            bias=False
-        )
-        self.initialise_layer(self.conv1)
-        self.norm1 = nn.BatchNorm2d(24)
-
-        self.conv2 = nn.Conv2d(
-            in_channels=self.conv1.out_channels,
             out_channels=36,
             kernel_size=(5, 5),
             padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
-        self.initialise_layer(self.conv2)
-        self.norm2 = nn.BatchNorm2d(36)
+        self.initialise_layer(self.conv1)
+        self.norm1 = nn.BatchNorm2d(36)
 
-        self.conv3 = nn.Conv2d(
-            in_channels=self.conv2.out_channels,
+        self.conv2 = nn.Conv2d(
+            in_channels=self.conv1.out_channels,
             out_channels=48,
             kernel_size=(5, 5),
             padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
+        self.initialise_layer(self.conv2)
+        self.norm2 = nn.BatchNorm2d(48)
+
+        self.conv3 = nn.Conv2d(
+            in_channels=self.conv2.out_channels,
+            out_channels=64,
+            kernel_size=(5, 5),
+            padding=(2, 2),
+            stride=(2, 2),
+            bias=False
+        )
         self.initialise_layer(self.conv3)
-        self.norm3 = nn.BatchNorm2d(48)
+        self.norm3 = nn.BatchNorm2d(64)
 
         self.pool1 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
 
@@ -118,17 +118,17 @@ class CNN(nn.Module):
 
         x = torch.flatten(x, start_dim=1)
 
-        # x = self.dropout2(x)
+        x = self.dropout2(x)
 
-        x = F.relu(self.norm6(self.fc1(x)))
+        x = F.relu(self.fc1(x))
 
         # x = self.dropout3(x)
 
-        x = F.relu(self.norm7(self.fc2(x)))
+        x = F.relu(self.fc2(x))
 
-        x = F.relu(self.norm8(self.fc3(x)))
+        x = F.relu(self.fc3(x))
 
-        x = F.relu(self.norm9(self.fc4(x)))
+        x = F.relu(self.fc4(x))
 
         x = self.fc5(x)
 
