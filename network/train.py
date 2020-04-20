@@ -64,6 +64,7 @@ def truncated_sum(output, target):
     return loss
 
 def mse_loss(output, target):
+    print(f'output:{torch.isnan(output)}, target:{torch.isnan(target)}')
     x = output.sub(target)
     x = x.abs().pow(2)
 
