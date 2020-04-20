@@ -528,9 +528,9 @@ bs_64_lr_0.001_run_94:
     36,48,64 Conv1-Conv3
     Final Loss (MSE): 5.821
 
-bs_64_lr_0.001_run_96:
+bs_64_lr_0.001_run_98:
     120000 training set
     Original Architecture
-    SGD
+    Adam
     MSE
     Final Loss (MSE):
