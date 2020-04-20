@@ -6,8 +6,9 @@ from scipy.stats import norm
 from scipy import optimize
 import math
 import numpy as np
+import torch
 
-run_name = 'bs_64_lr_0.001_run_92'
+run_name = 'bs_64_lr_0.001_run_85'
 file_name = f'../logs/{run_name}/logits/14.pkl'
 
 def x_square_fit(x, a, b, c, d):
@@ -45,6 +46,9 @@ if __name__ == '__main__':
         labels.append(label)
         l2_errors.append(l2_error)
         preds.append(pred)
+
+    loss_function = torch.nn.SmoothL1Loss()
+    loss = loss_function(torch.Tensor(labels), torch.Tensor(preds))
 
     (mu, sigma) = norm.fit(l2_errors)
 
@@ -86,6 +90,7 @@ if __name__ == '__main__':
     print(f'Median L2 Error: {np.median(l2_errors):.3f}')
     print(f'Mean L1 Error: {np.mean(l1_errors):.3f}')
     print(f'Median L1 Error: {np.median(l1_errors):.3f}')
+    print(f'Loss: {loss:.3f}')
 
     plt.subplot(234)
     plt.title('Binned L1 error/label')

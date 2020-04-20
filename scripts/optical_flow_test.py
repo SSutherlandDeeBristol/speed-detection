@@ -22,6 +22,12 @@ if __name__ == '__main__':
 
     flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 15, 2, 5, 1.3, 0)
 
+    print(flow)
+
+    print(flow.size)
+
+    print(flow[..., 0])
+
     magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
 
     mask_bgr[..., 0] = angle * (180 / np.pi / 2)

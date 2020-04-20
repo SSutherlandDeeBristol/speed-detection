@@ -95,7 +95,10 @@ if __name__ == '__main__':
     except FileExistsError:
         pass
 
-    color = '#80A1C1' if args.mode == 'train' else 'orange'
+    blue = (14/255, 107/255, 176/255)
+    red = (197/255, 42/255, 20/255)
+
+    color = blue if args.mode == 'train' else red
 
     plt.rc('font', size=32)
 
@@ -103,16 +106,16 @@ if __name__ == '__main__':
     plt.bar(weather_map.keys(), weather_map.values(), color=color)
     plt.ylabel('Frequency', fontsize=34, labelpad=30)
     plt.tight_layout()
-    plt.savefig(os.path.join(plot_dir, f'{mode}_weather.png'), dpi=400, bbox_inches=None, transparent=True)
+    plt.savefig(os.path.join(plot_dir, f'{mode}_weather.pdf'), bbox_inches=None, transparent=True)
 
     plt.figure(figsize=(20,10))
     plt.bar(scene_map.keys(), scene_map.values(), color=color)
     plt.ylabel('Frequency', fontsize=34, labelpad=30)
     plt.tight_layout()
-    plt.savefig(os.path.join(plot_dir, f'{mode}_scene.png'), dpi=400, bbox_inches=None, transparent=True)
+    plt.savefig(os.path.join(plot_dir, f'{mode}_scene.pdf'), bbox_inches=None, transparent=True)
 
     plt.figure(figsize=(20,10))
     plt.bar(time_of_day_map.keys(), time_of_day_map.values(), color=color)
     plt.ylabel('Frequency', fontsize=34, labelpad=30)
     plt.tight_layout()
-    plt.savefig(os.path.join(plot_dir, f'{mode}_time_of_day.png'), dpi=400, bbox_inches=None, transparent=True)
+    plt.savefig(os.path.join(plot_dir, f'{mode}_time_of_day.pdf'), bbox_inches=None, transparent=True)
