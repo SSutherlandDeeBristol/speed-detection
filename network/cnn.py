@@ -18,36 +18,36 @@ class CNN(nn.Module):
 
         self.conv1 = nn.Conv2d(
             in_channels=self.input_channels,
-            out_channels=36,
+            out_channels=24,
             kernel_size=(5, 5),
             padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
         self.initialise_layer(self.conv1)
-        self.norm1 = nn.BatchNorm2d(36)
+        self.norm1 = nn.BatchNorm2d(24)
 
         self.conv2 = nn.Conv2d(
             in_channels=self.conv1.out_channels,
-            out_channels=48,
+            out_channels=36,
             kernel_size=(5, 5),
             padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
         self.initialise_layer(self.conv2)
-        self.norm2 = nn.BatchNorm2d(48)
+        self.norm2 = nn.BatchNorm2d(36)
 
         self.conv3 = nn.Conv2d(
             in_channels=self.conv2.out_channels,
-            out_channels=64,
+            out_channels=48,
             kernel_size=(5, 5),
             padding=(2, 2),
             stride=(2, 2),
             bias=False
         )
         self.initialise_layer(self.conv3)
-        self.norm3 = nn.BatchNorm2d(64)
+        self.norm3 = nn.BatchNorm2d(48)
 
         self.pool1 = nn.MaxPool2d(kernel_size=(2,2), stride=(2,2), padding=1)
 
