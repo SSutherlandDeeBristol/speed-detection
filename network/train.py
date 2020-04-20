@@ -65,7 +65,7 @@ def truncated_sum(output, target):
 
 def mse_loss(output, target):
     x = output.sub(target)
-    x = x.pow(2)
+    x = x.abs().pow(2)
 
     loss = torch.mean(x)
 
