@@ -63,6 +63,14 @@ def truncated_sum(output, target):
 
     return loss
 
+def mse_loss(output, target):
+    x = output.sub(target)
+    x = x.pow(2)
+
+    loss = torch.mean(x)
+
+    return loss
+
 def truncated_mse(output, target):
     x = output.sub(target)
     x = torch.clamp(x, -12.5, 12.5)
@@ -136,9 +144,10 @@ if __name__=='__main__':
                 flush_secs=5
         )
 
+    criterion = mse_loss
     #criterion = torch.nn.MSELoss()
     #criterion = custom_loss
-    criterion = truncated_mse
+    #criterion = truncated_mse
     #criterion = truncated_loss
     #criterion = truncated_sum
     #criterion = torch.nn.SmoothL1Loss()
