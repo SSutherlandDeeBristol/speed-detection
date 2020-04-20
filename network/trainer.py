@@ -12,6 +12,7 @@ import numpy as np
 from torch import nn, optim
 from torch.nn import functional as F
 import torchvision.datasets
+from torch import autograd
 from torch.optim.optimizer import Optimizer
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
@@ -48,52 +49,53 @@ class Trainer:
         start_epoch: int = 0,
     ):
         self.model.train()
+        with autograd.detect_anomaly():
 
-        for epoch in range(start_epoch, epochs):
-            self.model.train()
-            data_load_start_time = time.time()
-
-            for batch, labels, fnames in self.train_loader:
-                batch = batch.to(self.device)
-                labels = labels.to(self.device)
-                data_load_end_time = time.time()
-
-                batch = batch.float()
-                labels = labels.float()
-
-                logits = self.model.forward(batch)
-
-                labels = torch.unsqueeze(labels, dim=1)
-
-                loss = self.criterion(logits, labels)
-
-                loss.backward()
-
-                self.optimizer.step()
-                self.optimizer.zero_grad()
-
-                data_load_time = data_load_end_time - data_load_start_time
-                step_time = time.time() - data_load_end_time
-                if ((self.step + 1) % log_frequency) == 0:
-                    self.log_metrics(epoch,
-                                     loss,
-                                     data_load_time,
-                                     step_time)
-
-                if ((self.step + 1) % print_frequency) == 0:
-                    self.print_metrics(epoch,
-                                       loss,
-                                       data_load_time,
-                                       step_time)
-                self.step += 1
+            for epoch in range(start_epoch, epochs):
+                self.model.train()
                 data_load_start_time = time.time()
 
-            self.summary_writer.add_scalar("epoch", epoch, self.step)
-            if ((epoch + 1) % val_frequency) == 0:
-                self.validate(epoch)
-                # self.validate() will put the model in validation mode,
-                # so we have to switch back to train mode afterwards
-                self.model.train()
+                for batch, labels, fnames in self.train_loader:
+                    batch = batch.to(self.device)
+                    labels = labels.to(self.device)
+                    data_load_end_time = time.time()
+
+                    batch = batch.float()
+                    labels = labels.float()
+
+                    logits = self.model.forward(batch)
+
+                    labels = torch.unsqueeze(labels, dim=1)
+
+                    loss = self.criterion(logits, labels)
+
+                    loss.backward()
+
+                    self.optimizer.step()
+                    self.optimizer.zero_grad()
+
+                    data_load_time = data_load_end_time - data_load_start_time
+                    step_time = time.time() - data_load_end_time
+                    if ((self.step + 1) % log_frequency) == 0:
+                        self.log_metrics(epoch,
+                                        loss,
+                                        data_load_time,
+                                        step_time)
+
+                    if ((self.step + 1) % print_frequency) == 0:
+                        self.print_metrics(epoch,
+                                        loss,
+                                        data_load_time,
+                                        step_time)
+                    self.step += 1
+                    data_load_start_time = time.time()
+
+                self.summary_writer.add_scalar("epoch", epoch, self.step)
+                if ((epoch + 1) % val_frequency) == 0:
+                    self.validate(epoch)
+                    # self.validate() will put the model in validation mode,
+                    # so we have to switch back to train mode afterwards
+                    self.model.train()
 
     def print_metrics(self, epoch, loss, data_load_time, step_time):
         epoch_step = (self.step) % len(self.train_loader)
