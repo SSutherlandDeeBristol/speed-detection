@@ -136,12 +136,12 @@ if __name__=='__main__':
                 flush_secs=5
         )
 
-    #criterion = torch.nn.MSELoss()
+    criterion = torch.nn.MSELoss()
     #criterion = custom_loss
     #criterion = truncated_mse
     #criterion = truncated_loss
     #criterion = truncated_sum
-    criterion = torch.nn.SmoothL1Loss()
+    #criterion = torch.nn.SmoothL1Loss()
 
     image_width = 640
     image_height = 360
@@ -152,12 +152,13 @@ if __name__=='__main__':
     affine_transform = transforms.RandomAffine(degrees=15, translate=(0,0.2))
     perspective_transform = transforms.RandomPerspective(p=0.5, distortion_scale=0.5)
 
-    optimizer = torch.optim.Adam(model.parameters(),
-                                 lr=learning_rate)
+    #optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
+
+    #transforms.Compose([resize_transform, affine_transform])
 
     train_loader = torch.utils.data.DataLoader(
-        BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform,
-                                                                            affine_transform])),
+        BDDDataset('../../train/', 'dataset_train.pkl', resize_transform),
         batch_size=batch_size, shuffle=True,
         num_workers=8, pin_memory=True
     )

@@ -527,3 +527,10 @@ bs_64_lr_0.001_run_94:
     Loss: SmoothL1Loss
     36,48,64 Conv1-Conv3
     Final Loss (MSE): 5.821
+
+bs_64_lr_0.001_run_96:
+    120000 training set
+    Original Architecture
+    SGD
+    MSE
+    Final Loss (MSE):
