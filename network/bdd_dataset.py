@@ -23,7 +23,7 @@ class BDDDataset(data.Dataset):
         if self.transforms:
             image = self.transforms(image)
 
-        image = np.transpose(image, (2,1,0))
+        # image = np.transpose(image, (2,1,0))
 
         return image, speed, image_name
 
