@@ -528,9 +528,21 @@ bs_64_lr_0.001_run_94:
     36,48,64 Conv1-Conv3
     Final Loss (MSE): 5.821
 
-bs_64_lr_0.001_run_98:
+bs_64_lr_0.001_run_115:
     120000 training set
     Original Architecture
+    SGD
+    Huber
+    Normalise images
+    Final Loss (MSE):
+
+bs_64_lr_0.001_run_116:
+    100000 training set
+    BN (1,2,3,4,5), and Dropout (after 5), Max-Pool after 3
+    Output put through tanh(x / 100) * 45
+    ReLU instead of ELU
     Adam
-    MSE
+    RandomAffine(degrees=15, translate=(0,0.2))
+    Loss: SmoothL1Loss
+    Normalise images
     Final Loss (MSE):
