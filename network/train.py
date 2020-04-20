@@ -145,13 +145,13 @@ if __name__=='__main__':
                 flush_secs=5
         )
 
-    criterion = mse_loss
+    #criterion = mse_loss
     #criterion = torch.nn.MSELoss()
     #criterion = custom_loss
     #criterion = truncated_mse
     #criterion = truncated_loss
     #criterion = truncated_sum
-    #criterion = torch.nn.SmoothL1Loss()
+    criterion = torch.nn.SmoothL1Loss()
 
     image_width = 640
     image_height = 360
@@ -167,7 +167,7 @@ if __name__=='__main__':
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
     train_loader = torch.utils.data.DataLoader(
-        BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform, affine_transform, to_tensor_transform])),
+        BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform, to_tensor_transform])),
         batch_size=batch_size, shuffle=True,
         num_workers=8, pin_memory=True
     )
