@@ -136,9 +136,9 @@ if __name__=='__main__':
                 flush_secs=5
         )
 
-    criterion = torch.nn.MSELoss()
+    #criterion = torch.nn.MSELoss()
     #criterion = custom_loss
-    #criterion = truncated_mse
+    criterion = truncated_mse
     #criterion = truncated_loss
     #criterion = truncated_sum
     #criterion = torch.nn.SmoothL1Loss()
