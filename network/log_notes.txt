@@ -546,3 +546,18 @@ bs_64_lr_0.001_run_116:
     Loss: SmoothL1Loss
     Normalise images
     Final Loss (MSE):
+
+Final Architecture Hyper-Parameter Tuning:
+    Batch Size:
+    - 32:
+    - 64:
+    - 128:
+
+    Learning Rate:
+    - 1e-2:
+    - 1e-3:
+    - 1e-4:
+    - 5e-3:
+    - 5e-4:
+
+    Weight Decay:
