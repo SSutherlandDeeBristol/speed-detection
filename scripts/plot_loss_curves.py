@@ -4,7 +4,7 @@ import os
 from scipy import interpolate
 import numpy as np
 
-run_name = 'bs_64_lr_0.001_run_85'
+run_name = 'bs_64_lr_0.001_run_115'
 csv_path = 'csv_runs/'
 
 def smooth(scalars, weight):
