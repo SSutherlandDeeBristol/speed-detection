@@ -549,9 +549,30 @@ bs_64_lr_0.001_run_116:
 
 Final Architecture Hyper-Parameter Tuning:
     Batch Size:
-    - 32:
+    - 32: bs_32_lr_0.001_run_2
+        Mean error/ground truth: 0.441
+        Median error/ground truth: 0.192
+        Mean Squared Error: 6.585
+        Median L2 Error: 0.893
+        Mean L1 Error: 1.700
+        Median L1 Error: 0.945
+        Loss: 1.271
     - 64:
-    - 128:
+        Mean error/ground truth: 0.395
+        Median error/ground truth: 0.179
+        Mean Squared Error: 5.770
+        Median L2 Error: 0.795
+        Mean L1 Error: 1.571
+        Median L1 Error: 0.892
+        Loss: 1.163
+    - 128: bs_128_lr_0.001_run_1
+        Mean error/ground truth: 0.437
+        Median error/ground truth: 0.194
+        Mean Squared Error: 5.974
+        Median L2 Error: 0.996
+        Mean L1 Error: 1.656
+        Median L1 Error: 0.998
+        Loss: 1.233
 
     Learning Rate:
     - 1e-2:
