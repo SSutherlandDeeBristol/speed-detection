@@ -595,7 +595,6 @@ Final Architecture Hyper-Parameter Tuning:
         Median L1 Error: 0.993
         Loss: 1.214
 
-
     Weight Decay:
 
 Experiments:
@@ -608,5 +607,20 @@ Experiments:
         Median L1 Error: 1.060
         Loss: 1.352
     - SGD instead of Adam: bs_64_lr_0.001_run_118
+        Mean error/ground truth: 0.639
+        Median error/ground truth: 0.229
+        Mean Squared Error: 9.179
+        Median L2 Error: 1.808
+        Mean L1 Error: 2.073
+        Median L1 Error: 1.345
+        Loss: 1.644
     - No Batch Norm: bs_64_lr_0.001_run_119
+        Mean error/ground truth: 0.483
+        Median error/ground truth: 0.202
+        Mean Squared Error: 7.068
+        Median L2 Error: 1.101
+        Mean L1 Error: 1.792
+        Median L1 Error: 1.049
+        Loss: 1.355
     - No Dropout: bs_64_lr_0.001_run_120
+    - No Max Pool: bs_64_lr_0.001_run_121

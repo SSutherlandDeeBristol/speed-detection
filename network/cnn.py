@@ -72,8 +72,8 @@ class CNN(nn.Module):
 
         # size = int((math.floor(image_height/32) + 1) * (math.floor(image_width/32) + 1)) * self.conv5.out_channels
 
-        self.fc1 = nn.Linear(60352, 1164)
-        # self.fc1 = nn.Linear(120704, 1164)
+        # self.fc1 = nn.Linear(60352, 1164)
+        self.fc1 = nn.Linear(230400, 1164)
         self.initialise_layer(self.fc1)
 
         self.fc2 = nn.Linear(1164, 100)
@@ -97,7 +97,7 @@ class CNN(nn.Module):
 
         x = F.relu(self.norm3(self.conv3(x)))
 
-        x = self.pool1(x)
+        # x = self.pool1(x)
 
         x = F.relu(self.norm4(self.conv4(x)))
 

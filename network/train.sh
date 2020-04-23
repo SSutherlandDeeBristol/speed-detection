@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 #SBATCH --partition gpu
-#SBATCH --time 0-06:00:00
+#SBATCH --time 0-12:00:00
 #SBATCH --mem 64GB
 #SBATCH --gres gpu:1
-#SBATCH --begin now
 #SBATCH --mail-type=FAIL
 
 module load "languages/anaconda3/2019.07-3.6.5-tflow-1.14"
