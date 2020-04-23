@@ -600,5 +600,13 @@ Final Architecture Hyper-Parameter Tuning:
 
 Experiments:
     - ELU instead of ReLU: bs_64_lr_0.001_run_117
+        Mean error/ground truth: 0.522
+        Median error/ground truth: 0.196
+        Mean Squared Error: 7.002
+        Median L2 Error: 1.124
+        Mean L1 Error: 1.786
+        Median L1 Error: 1.060
+        Loss: 1.352
     - SGD instead of Adam: bs_64_lr_0.001_run_118
     - No Batch Norm: bs_64_lr_0.001_run_119
+    - No Dropout: bs_64_lr_0.001_run_120
