@@ -623,4 +623,19 @@ Experiments:
         Median L1 Error: 1.049
         Loss: 1.355
     - No Dropout: bs_64_lr_0.001_run_120
+        Mean error/ground truth: 0.434
+        Median error/ground truth: 0.184
+        Mean Squared Error: 5.792
+        Median L2 Error: 0.894
+        Mean L1 Error: 1.593
+        Median L1 Error: 0.946
+        Loss: 1.183
     - No Max Pool: bs_64_lr_0.001_run_121
+        Mean error/ground truth: 0.428
+        Median error/ground truth: 0.195
+        Mean Squared Error: 6.719
+        Median L2 Error: 0.973
+        Mean L1 Error: 1.681
+        Median L1 Error: 0.986
+        Loss: 1.281
+    - No tanh: bs_64_lr_0.001_run_122
