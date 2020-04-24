@@ -4,7 +4,7 @@ import os
 from scipy import interpolate
 import numpy as np
 
-run_name = 'bs_64_lr_0.001_run_115'
+run_name = 'bs_64_lr_0.001_run_85'
 csv_path = 'csv_runs/'
 
 def smooth(scalars, weight):
@@ -64,3 +64,8 @@ if __name__ == '__main__':
     plt.grid()
     plt.tight_layout()
     plt.savefig(os.path.join(csv_path, f'{run_name}_loss_curve.pdf'), bbox_inches=None, transparent=True)
+
+    np.savetxt(os.path.join(csv_path, f'{run_name}_train_loss_reformat.csv'), np.around(train_loss, decimals=5), delimiter=',', fmt='%1.5f')
+    np.savetxt(os.path.join(csv_path, f'{run_name}_test_loss_reformat.csv'), np.around(test_loss, decimals=5), delimiter=',', fmt='%1.5f')
+    np.savetxt(os.path.join(csv_path, f'{run_name}_smooth_train_loss_reformat.csv'), np.around(smoothed_train_loss, decimals=5), delimiter=',', fmt='%1.5f')
+    np.savetxt(os.path.join(csv_path, f'{run_name}_smooth_test_loss_reformat.csv'), np.around(smoothed_test_loss, decimals=5), delimiter=',', fmt='%1.5f')

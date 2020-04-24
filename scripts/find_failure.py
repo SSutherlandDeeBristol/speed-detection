@@ -8,7 +8,7 @@ import math
 import numpy as np
 import torch
 
-run_name = 'bs_64_lr_0.001_run_116'
+run_name = 'bs_64_lr_0.001_run_122'
 file_name = f'../logs/{run_name}/logits/14.pkl'
 
 def x_square_fit(x, a, b, c, d):
@@ -86,7 +86,7 @@ if __name__ == '__main__':
 
     print(f'Mean error/ground truth: {mean_error_as_fraction:.3f}')
     print(f'Median error/ground truth: {median_error_as_fraction:.3f}')
-    print(f'Mean L2 Error: {np.sqrt(np.sum(l2_errors))/len(l2_errors):.3f}')
+    print(f'Mean Squared Error: {np.mean(l2_errors):.3f}')
     print(f'Median L2 Error: {np.median(l2_errors):.3f}')
     print(f'Mean L1 Error: {np.mean(l1_errors):.3f}')
     print(f'Median L1 Error: {np.median(l1_errors):.3f}')
