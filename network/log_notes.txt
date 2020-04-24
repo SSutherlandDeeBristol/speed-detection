@@ -639,3 +639,4 @@ Experiments:
         Median L1 Error: 0.986
         Loss: 1.281
     - No tanh: bs_64_lr_0.001_run_122
+    - RReLU: bs_64_lr_0.001_run_123
