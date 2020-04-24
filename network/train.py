@@ -163,11 +163,11 @@ if __name__=='__main__':
     perspective_transform = transforms.RandomPerspective(p=0.5, distortion_scale=0.5)
     to_tensor_transform = transforms.ToTensor()
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, amsgrad=True)
     # optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
     train_loader = torch.utils.data.DataLoader(
-        BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform, to_tensor_transform])),
+        BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform, affine_transform, to_tensor_transform])),
         batch_size=batch_size, shuffle=True,
         num_workers=8, pin_memory=True
     )
