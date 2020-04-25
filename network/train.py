@@ -163,7 +163,7 @@ if __name__=='__main__':
     perspective_transform = transforms.RandomPerspective(p=0.5, distortion_scale=0.5)
     to_tensor_transform = transforms.ToTensor()
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, amsgrad=True)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     # optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
     train_loader = torch.utils.data.DataLoader(
@@ -186,7 +186,7 @@ if __name__=='__main__':
                       summary_writer,
                       DEVICE)
 
-    trainer.train(15,
+    trainer.train(20,
                   1,
                   1,
                   1)

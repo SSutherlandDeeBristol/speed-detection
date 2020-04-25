@@ -647,4 +647,19 @@ Experiments:
         Median L1 Error: 1.065
         Loss: 1.318
     - No Data Augmentation: bs_64_lr_0.001_run_124
+        Mean error/ground truth: 0.452
+        Median error/ground truth: 0.204
+        Mean Squared Error: 7.760
+        Median L2 Error: 1.092
+        Mean L1 Error: 1.771
+        Median L1 Error: 1.045
+        Loss: 1.385
     - AMSGrad: bs_64_lr_0.001_run_125
+        Mean error/ground truth: 0.425
+        Median error/ground truth: 0.184
+        Mean Squared Error: 5.602
+        Median L2 Error: 0.928
+        Mean L1 Error: 1.550
+        Median L1 Error: 0.963
+        Loss: 1.166
+    - 20 epochs: bs_64_lr_0.001_run_126
