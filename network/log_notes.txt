@@ -577,6 +577,7 @@ Final Architecture Hyper-Parameter Tuning:
     Learning Rate:
     - 1e-2:
     - 1e-3:
+    - 5e-3: bs_64_lr_0.005_run_0
     - 1e-4: bs_64_lr_0.0001_run_12
         Mean error/ground truth: 0.497
         Median error/ground truth: 0.197
@@ -585,7 +586,6 @@ Final Architecture Hyper-Parameter Tuning:
         Mean L1 Error: 1.733
         Median L1 Error: 1.054
         Loss: 1.329
-    - 5e-3: bs_64_lr_0.005_run_0
     - 5e-4: bs_64_lr_0.0005_run_0
         Mean error/ground truth: 0.478
         Median error/ground truth: 0.186
@@ -663,3 +663,13 @@ Experiments:
         Median L1 Error: 0.963
         Loss: 1.166
     - 20 epochs: bs_64_lr_0.001_run_126
+        Mean error/ground truth: 0.376
+        Median error/ground truth: 0.192
+        Mean Squared Error: 6.081
+        Median L2 Error: 0.799
+        Mean L1 Error: 1.617
+        Median L1 Error: 0.894
+        Loss: 1.203
+    - 20 epochs: bs_64_lr_0.0005_run_1
+    - 20 epochs: bs_64_lr_0.0001_run_13
+    - 25 epochs: bs_64_lr_0.0001_run_14

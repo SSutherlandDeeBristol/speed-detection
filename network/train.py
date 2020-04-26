@@ -44,6 +44,11 @@ parser.add_argument('--bs',
                     type=int,
                     help="Batch size.")
 
+parser.add_argument('--epochs',
+                    default=15,
+                    type=int,
+                    help="Number of epochs.")
+
 def truncated_sum(output, target):
     x = output.sub(target)
     x = torch.clamp(x, -10, 10)
@@ -137,6 +142,7 @@ if __name__=='__main__':
 
     batch_size = args.bs
     learning_rate = args.lr
+    epochs = args.epochs
 
     log_dir = get_summary_writer_log_dir(batch_size, learning_rate)
 
@@ -186,7 +192,7 @@ if __name__=='__main__':
                       summary_writer,
                       DEVICE)
 
-    trainer.train(20,
+    trainer.train(epochs,
                   1,
                   1,
                   1)
