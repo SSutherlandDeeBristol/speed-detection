@@ -1,5 +1,4 @@
 import os
-import cv2 as cv
 import numpy as np
 import torch
 import time
@@ -29,6 +28,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.mode == 'optical-flow':
+        import cv2 as cv
+
         prev_image = cv.imread(prev_image_path)
         current_image = cv.imread(current_image_path)
 
