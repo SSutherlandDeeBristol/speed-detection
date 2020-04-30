@@ -2,38 +2,68 @@ import os
 import cv2 as cv
 import numpy as np
 import torch
+import time
+import sys
+import argparse
 
-prev_path = '../../images/train/00d4b6b7-a0b1a3e0/00d4b6b7-a0b1a3e0-4-prev.png'
-current_path = '../../images/train/00d4b6b7-a0b1a3e0/00d4b6b7-a0b1a3e0-4-current.png'
+sys.path.append('../network')
+from cnn import CNN
+
+prev_image_path = '../../images/train/00d4b6b7-a0b1a3e0/00d4b6b7-a0b1a3e0-4-prev.png'
+current_image_path = '../../images/train/00d4b6b7-a0b1a3e0/00d4b6b7-a0b1a3e0-4-current.png'
+
+optical_flow_image_path = '../../train/00d4b6b7-a0b1a3e0/00d4b6b7-a0b1a3e0-4.png'
+run_name = 'bs_64_lr_0.001_run_85'
+model_path = f'logs/{run_name}/model.pt'
+
+parser = argparse.ArgumentParser(
+    description="Test timings.",
+    formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+
+parser.add_argument('--mode',
+                    default='optical-flow',
+                    help="optical-flow or forward.")
 
 if __name__ == '__main__':
 
-    prev_image = cv.imread(prev_path)
-    current_image = cv.imread(current_path)
+    args = parser.parse_args()
 
-    prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
-    current_gray = cv.cvtColor(current_image, cv.COLOR_BGR2GRAY)
+    if args.mode == 'optical-flow':
+        prev_image = cv.imread(prev_image_path)
+        current_image = cv.imread(current_image_path)
 
-    mask_bgr = np.zeros_like(current_image)
+        prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
+        current_gray = cv.cvtColor(current_image, cv.COLOR_BGR2GRAY)
 
-    hsv_current_bgr = cv.cvtColor(current_image, cv.COLOR_BGR2HSV)
+        start_time = time.time()
 
-    mask_bgr[:,:,1] = hsv_current_bgr[:,:,1]
+        flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 15, 2, 5, 1.3, 0)
 
-    flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 15, 2, 5, 1.3, 0)
+        end_time = time.time()
 
-    print(flow)
+        print(f'optical flow time taken: {round((end_time - start_time)*1000)} ms')
+    elif args.mode == 'forward':
 
-    print(flow.size)
+        model = CNN(640, 360, 3)
 
-    print(flow[..., 0])
+        model.load_state_dict(torch.load(model_path))
+        model.eval()
 
-    magnitude, angle = cv.cartToPolar(flow[..., 0], flow[..., 1])
+        resize_transform = transforms.Resize((640, 360))
 
-    mask_bgr[..., 0] = angle * (180 / np.pi / 2)
+        PIL_Image = Image.open(optical_flow_image_path)
 
-    mask_bgr[..., 2] = cv.normalize(magnitude, None, 0, 255, cv.NORM_MINMAX)
+        PIL_Image = resize_transform(PIL_Image)
 
-    bgr = cv.cvtColor(mask_bgr, cv.COLOR_HSV2BGR)
+        PIL_Image = np.transpose(PIL_Image, (2,1,0))
 
-    cv.imwrite(os.path.join(f'test_bgr.png'), bgr)
+        PIL_Image = np.expand_dims(PIL_Image, axis=0)
+
+        start_time = time.time()
+
+        with torch.no_grad():
+            speed = model.forward(torch.Tensor(PIL_Image))
+
+        end_time = time.time()
+
+        print(f'forward time taken: {round((end_time - start_time)*1000)}')
