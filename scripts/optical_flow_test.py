@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    num_iterations = 10
+    num_iterations = 100
 
     if args.mode == 'optical-flow':
         import cv2 as cv
@@ -78,7 +78,7 @@ if __name__ == '__main__':
 
     average_time = total_time / num_iterations
 
-    num_per_second = (1/average_time) * 1000
+    num_per_second = (1/average_time)
 
     print(f'average time taken: {average_time * 1000:.2f} ms')
     print(f'number per second: {num_per_second:.2f}')
