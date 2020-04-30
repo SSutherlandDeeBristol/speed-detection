@@ -62,11 +62,13 @@ if __name__ == '__main__':
 
         PIL_Image = np.expand_dims(PIL_Image, axis=0)
 
+        tensor_image = torch.Tensor(PIL_Image)
+
         start_time = time.time()
 
         with torch.no_grad():
-            speed = model.forward(torch.Tensor(PIL_Image))
+            speed = model.forward(tensor_image)
 
         end_time = time.time()
 
-        print(f'forward time taken: {round((end_time - start_time)*1000)}')
+        print(f'forward time taken: {round((end_time - start_time)*1000)} ms')
