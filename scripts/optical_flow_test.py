@@ -40,11 +40,12 @@ if __name__ == '__main__':
 
         start_time = time.time()
 
-        flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 15, 2, 5, 1.3, 0)
+        for _ in range(10):
+            flow = cv.calcOpticalFlowFarneback(prev_gray, current_gray, None, 0.5, 1, 15, 2, 5, 1.3, 0)
 
         end_time = time.time()
 
-        print(f'optical flow time taken: {round((end_time - start_time)*1000)} ms')
+        print(f'average optical flow time taken: {round(((end_time - start_time)/5)*1000)} ms')
     elif args.mode == 'forward':
 
         model = CNN(640, 360, 3)
@@ -67,8 +68,9 @@ if __name__ == '__main__':
         start_time = time.time()
 
         with torch.no_grad():
-            speed = model.forward(tensor_image)
+            for _ in range(10):
+                speed = model.forward(tensor_image)
 
         end_time = time.time()
 
-        print(f'forward time taken: {round((end_time - start_time)*1000)} ms')
+        print(f'average forward time taken: {round(((end_time - start_time)/5)*1000)} ms')
