@@ -14,7 +14,7 @@ current_image_path = '../../images/train/00d4b6b7-a0b1a3e0/00d4b6b7-a0b1a3e0-4-c
 
 optical_flow_image_path = '../../train/00d4b6b7-a0b1a3e0/00d4b6b7-a0b1a3e0-4.png'
 run_name = 'bs_64_lr_0.001_run_85'
-model_path = f'logs/{run_name}/model.pt'
+model_path = f'../network/logs/{run_name}/model.pt'
 
 parser = argparse.ArgumentParser(
     description="Test timings.",
