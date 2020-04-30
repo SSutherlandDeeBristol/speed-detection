@@ -4,6 +4,8 @@ import torch
 import time
 import sys
 import argparse
+from torchvision import transforms
+from PIL import Image
 
 sys.path.append('../network')
 from cnn import CNN
