@@ -104,7 +104,7 @@ if __name__ == '__main__':
     plt.ylabel('L1 error/label')
     plt.ylim(top=5)
     bin_means, bin_edges, binnumber = stats.binned_statistic(non_zero_labels,
-                error_as_fraction, statistic='mean', bins=100)
+                error_as_fraction, statistic='mean', bins=90, range=(0,45))
     plt.hlines(bin_means, bin_edges[:-1], bin_edges[1:], colors='blue', lw=2,
                 label='Mean of binned error/label')
 
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     plt.ylabel('l1 error')
     plt.ylim(top=15)
     bin_means, bin_edges, binnumber = stats.binned_statistic(labels,
-                l1_errors, statistic='mean', bins=100)
+                l1_errors, statistic='mean', bins=90, range=(0,45))
     plt.hlines(bin_means, bin_edges[:-1], bin_edges[1:], colors='blue', lw=2,
                 label='Mean of binned l1 error')
 
