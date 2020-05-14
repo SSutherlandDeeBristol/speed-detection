@@ -9,7 +9,7 @@ from scipy import stats
 import math
 
 parser = argparse.ArgumentParser(
-    description="Calculate the optical flow coverage.",
+    description="Calculate the optical flow density.",
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
 
@@ -18,13 +18,13 @@ parser.add_argument('--mode',
                     help='train/val/test',
                     required=True)
 
-def calculate_mean_coverage(coverage_dict):
-    mean_coverage_dict = dict()
+def calculate_mean_density(density_dict):
+    mean_density_dict = dict()
 
-    for k,v in coverage_dict.items():
-        mean_coverage_dict[k] = np.mean(np.array(v))
+    for k,v in density_dict.items():
+        mean_density_dict[k] = np.mean(np.array(v))
 
-    return mean_coverage_dict
+    return mean_density_dict
 
 if __name__ == '__main__':
 
@@ -36,21 +36,22 @@ if __name__ == '__main__':
 
     run_name = 'bs_64_lr_0.001_run_85'
     logits_path = f'../logs/{run_name}/logits/14.pkl'
-    logits = pkl.load(open(logits_path, 'rb'))
 
+    # Load the testing data, scene labels and dataset map
+    logits = pkl.load(open(logits_path, 'rb'))
     scene_labels = pkl.load(open(f'../../labels/labels_map_{mode}.pkl', 'rb'))
     dataset = pkl.load(open(f'../../{mode}/dataset_{mode}.pkl', 'rb'))
 
     dataset_length = len(dataset.keys())
 
-    scene_coverage = dict()
-    weather_coverage = dict()
-    time_coverage = dict()
+    scene_density = dict()
+    weather_density = dict()
+    time_density = dict()
 
-    coverage_error = list()
-    coverage_speed = list()
+    density_error = list()
+    density_speed = list()
 
-    dataset_coverage = dict()
+    dataset_density = dict()
 
     start_time = time.time()
 
@@ -68,28 +69,28 @@ if __name__ == '__main__':
 
         num_non_zero = image.any(axis=-1).sum()
 
-        coverage = num_non_zero / (image.shape[0] * image.shape[1])
+        density = num_non_zero / (image.shape[0] * image.shape[1])
 
-        dataset_coverage[filename] = coverage
+        dataset_density[filename] = density
 
         if mode == 'val':
             pred, label = logits[filename]
             l1_error = abs(pred - label)
-            coverage_error.append((coverage, l1_error))
+            density_error.append((density, l1_error))
 
-        coverage_speed.append((speed, coverage))
+        density_speed.append((speed, density))
 
         if weather == 'foggy' or weather == 'snowy':
             weather = 'other'
 
-        weather_coverage.setdefault(weather, []).append(coverage)
+        weather_density.setdefault(weather, []).append(density)
 
         if scene == 'gas stations' or scene == 'parking lot' or scene == 'tunnel':
             scene = 'other'
 
-        scene_coverage.setdefault(scene, []).append(coverage)
+        scene_density.setdefault(scene, []).append(density)
 
-        time_coverage.setdefault(time_of_day, []).append(coverage)
+        time_density.setdefault(time_of_day, []).append(density)
 
         current_time = time.time()
 
@@ -103,35 +104,35 @@ if __name__ == '__main__':
 
         print(f'({i+1}/{dataset_length}): {filename} | time elapsed: {time_elapsed:.0f}s | time end: {time_end}')
 
-    if mode == 'val':
-        np.savetxt(f'plots_{mode}/coverage_error.csv',
-            coverage_error, delimiter=',', fmt='%s')
+    if mode == 'test':
+        np.savetxt(f'plots_{mode}/density_error.csv',
+            density_error, delimiter=',', fmt='%s')
 
-    np.savetxt(f'plots_{mode}/coverage_speed.csv',
-            coverage_speed, delimiter=',', fmt='%s')
+    np.savetxt(f'plots_{mode}/density_speed.csv',
+            density_speed, delimiter=',', fmt='%s')
 
-    bin_means, bin_edges, binnumber = stats.binned_statistic(np.array(coverage_speed)[...,0],
-                np.array(coverage_speed)[...,1], statistic='mean', bins=90, range=(0,45))
+    bin_means, bin_edges, binnumber = stats.binned_statistic(np.array(density_speed)[...,0],
+                np.array(density_speed)[...,1], statistic='mean', bins=90, range=(0,45))
 
-    np.savetxt(f'plots_{mode}/coverage_speed_hist.csv',
+    np.savetxt(f'plots_{mode}/density_speed_hist.csv',
             [(float(edge), float(val) if not math.isnan(val) else 0.0) for edge, val in zip(bin_edges[1:], bin_means)], delimiter=',', fmt='%s')
 
-    weather_mean_coverage = calculate_mean_coverage(weather_coverage)
-    scene_mean_coverage = calculate_mean_coverage(scene_coverage)
-    time_mean_coverage = calculate_mean_coverage(time_coverage)
+    weather_mean_density = calculate_mean_density(weather_density)
+    scene_mean_density = calculate_mean_density(scene_density)
+    time_mean_density = calculate_mean_density(time_density)
 
     titles = [['x', 'label', 'value']]
 
-    np.savetxt(os.path.join(f'plots_{mode}', f'{mode}_scene_coverage.csv'),
-        titles + [(float(i+1), k, float(v)) for i,(k,v) in enumerate(scene_mean_coverage.items())],
+    np.savetxt(os.path.join(f'plots_{mode}', f'{mode}_scene_density.csv'),
+        titles + [(float(i+1), k, float(v)) for i,(k,v) in enumerate(scene_mean_density.items())],
         delimiter=',', fmt='%s')
 
-    np.savetxt(os.path.join(f'plots_{mode}', f'{mode}_weather_coverage.csv'),
-        titles + [(float(i+1), k, float(v)) for i,(k,v) in enumerate(weather_mean_coverage.items())],
+    np.savetxt(os.path.join(f'plots_{mode}', f'{mode}_weather_density.csv'),
+        titles + [(float(i+1), k, float(v)) for i,(k,v) in enumerate(weather_mean_density.items())],
         delimiter=',', fmt='%s')
 
-    np.savetxt(os.path.join(f'plots_{mode}', f'{mode}_time_coverage.csv'),
-        titles + [(float(i+1), k, float(v)) for i,(k,v) in enumerate(time_mean_coverage.items())],
+    np.savetxt(os.path.join(f'plots_{mode}', f'{mode}_time_density.csv'),
+        titles + [(float(i+1), k, float(v)) for i,(k,v) in enumerate(time_mean_density.items())],
         delimiter=',', fmt='%s')
 
-    pkl.dump(dataset_coverage, open(f'../../{mode}/coverage_{mode}.pkl', 'wb'))
+    pkl.dump(dataset_density, open(f'../../{mode}/density_{mode}.pkl', 'wb'))

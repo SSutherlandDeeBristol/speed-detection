@@ -20,7 +20,6 @@ if __name__ == '__main__':
 
     path = f'../../images/{mode}/'
 
-    # optical_flow_map = pkl.load(open(os.path.join(path, f'optical_flow_map_{mode}.pkl'), 'rb'))
     image_map = pkl.load(open(os.path.join(path, f'image_map_{mode}.pkl'), 'rb'))
 
     for k,v in image_map.items():

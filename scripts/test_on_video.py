@@ -53,11 +53,6 @@ if __name__ == '__main__':
     for ground_truth in open(ground_truth_path, 'rb'):
         ground_truth_speeds.append(float(ground_truth))
 
-    # print(ground_truth_speeds)
-
-    # plt.hist(ground_truth_speeds, bins='auto')
-    # plt.show()
-
     try:
         success, prev_image = vid.read()
     except:

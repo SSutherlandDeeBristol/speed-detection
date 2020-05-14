@@ -8,7 +8,7 @@ import math
 import numpy as np
 import torch
 
-run_name = 'bs_64_lr_0.001_run_122'
+run_name = 'bs_64_lr_0.001_run_115'
 file_name = f'../logs/{run_name}/logits/14.pkl'
 
 def x_square_fit(x, a, b, c, d):

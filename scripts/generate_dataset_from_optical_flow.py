@@ -40,7 +40,7 @@ if __name__=='__main__':
     random.shuffle(zero_speeds)
     random.shuffle(non_zero_speeds)
 
-    if mode != 'val':
+    if mode != 'test':
         zero_speeds = zero_speeds[:int(size)//50]
         non_zero_speeds = non_zero_speeds[:(int(size) * 49)//50]
 

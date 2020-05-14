@@ -21,10 +21,6 @@ if __name__=='__main__':
 
     of_map = pkl.load(open(f'../../{args.mode}/dataset_{args.mode}.pkl', 'rb'))
 
-    # print(of_map)
-    # print(max([s for _,s in of_map.values()]))
-    # print(len(of_map))
-
     dpi = 300
     plt.figure(dpi=dpi, figsize=(20, 10))
     plt.rc('font', size=32)

@@ -61,6 +61,7 @@ if __name__ == '__main__':
             weather.append(labels_map[id][0])
             scene.append(labels_map[id][1])
             time_of_day.append(labels_map[id][2])
+            print(id,labels_map[id][0],labels_map[id][1],labels_map[id][2])
         else:
             weather.append('undefined')
             scene.append('undefined')

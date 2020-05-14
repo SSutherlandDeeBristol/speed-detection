@@ -23,10 +23,6 @@ if __name__ == '__main__':
 
     average_speed = sum([s for _,s in dataset.values()]) / len(dataset.values())
 
-    # xs = np.linspace(0, 40, 1000)
-    # ys = [calc_mse(x, dataset.values()) for x in xs]
-    # plt.plot(xs, ys)
-
     plt.hist([calc_random_mse(dataset.values()) for i in range(0,1000)], 100)
 
     plt.show()

@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import os
 
-run_name = 'bs_64_lr_0.001_run_85'
+run_name = 'bs_64_lr_0.001_run_115'
 file_name = f'../logs/{run_name}/logits/14.pkl'
 
 def get_errors(results_map):
@@ -19,8 +19,6 @@ def get_errors(results_map):
         root_mse = np.sqrt(np.mean([(p-l)**2 for p,l in zip(preds, labels)]))
         mean_l1 = np.mean(abs(preds-labels))
         errors[k] = [loss.item(), root_mse, mean_l1]
-
-        # print(f'{k}:\nloss: {loss}\nRMSE: {root_mse}\nmean l1 error: {mean_l1}')
 
     return errors
 
@@ -43,9 +41,6 @@ if __name__ == '__main__':
     for (pred, label), (filename, _) in zip(logits.values(), test_set.values()):
         (weather, scene, time) = scene_labels[filename[:17]]
 
-        if filename == 'b1d7b3ac-36f2d3b7-8.png':
-            print(f'pred: {pred}, label: {label}')
-
         if weather in ['foggy', 'snowy']:
             weather = 'other'
 
@@ -60,13 +55,13 @@ if __name__ == '__main__':
     weather_errors = get_errors(weather_results)
     time_errors = get_errors(time_results)
 
-    np.savetxt(os.path.join('performance_csv', f'scene_performance.csv'),
+    np.savetxt(os.path.join('performance_csv', f'{run_name}_scene_performance.csv'),
         [(float(i+1), k, float(v[0]), float(v[1]), float(v[2])) for i,(k,v) in enumerate(scene_errors.items())],
         delimiter=',', fmt='%s')
 
-    np.savetxt(os.path.join('performance_csv', f'weather_performance.csv'),
+    np.savetxt(os.path.join('performance_csv', f'{run_name}_weather_performance.csv'),
         [(float(i+1), k, float(v[0]), float(v[1]), float(v[2])) for i,(k,v) in enumerate(weather_errors.items())],
         delimiter=',', fmt='%s')
-    np.savetxt(os.path.join('performance_csv', f'time_performance.csv'),
+    np.savetxt(os.path.join('performance_csv', f'{run_name}_time_performance.csv'),
         [(float(i+1), k, float(v[0]), float(v[1]), float(v[2])) for i,(k,v) in enumerate(time_errors.items())],
         delimiter=',', fmt='%s')
