@@ -68,15 +68,6 @@ def truncated_sum(output, target):
 
     return loss
 
-def mse_loss(output, target):
-    # print(f'output:{torch.sum(torch.isnan(output))}, target:{torch.sum(torch.isnan(target))}')
-    x = output.sub(target)
-    x = x.abs().pow(2)
-
-    loss = torch.mean(x)
-
-    return loss
-
 def truncated_mse(output, target):
     x = output.sub(target)
     x = torch.clamp(x, -12.5, 12.5)
@@ -105,7 +96,7 @@ def truncated_loss(output, target):
 
     return loss
 
-def custom_loss(output, target):
+def asymmetric_loss(output, target):
     x = output.sub(target)
     pos_mask = x.ge(0)
     neg_mask = x.lt(0)
@@ -137,7 +128,7 @@ def get_summary_writer_log_dir(batch_size, learning_rate) -> str:
     return str(tb_log_dir)
 
 if __name__=='__main__':
-
+    # Collect arguments
     args = parser.parse_args()
 
     batch_size = args.bs
@@ -151,27 +142,24 @@ if __name__=='__main__':
                 flush_secs=5
         )
 
-    #criterion = mse_loss
-    #criterion = torch.nn.MSELoss()
-    #criterion = custom_loss
-    #criterion = truncated_mse
-    #criterion = truncated_loss
-    #criterion = truncated_sum
+    # Huber Loss
     criterion = torch.nn.SmoothL1Loss()
 
     image_width = 640
     image_height = 360
 
+    # Initialise CNN
     model = CNN(image_width, image_height, 3)
 
+    # Initialise transforms
     resize_transform = transforms.Resize((image_height, image_width))
     affine_transform = transforms.RandomAffine(degrees=15, translate=(0,0.2))
-    perspective_transform = transforms.RandomPerspective(p=0.5, distortion_scale=0.5)
     to_tensor_transform = transforms.ToTensor()
 
+    # Adam
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-    # optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
+    # DataLoaders
     train_loader = torch.utils.data.DataLoader(
         BDDDataset('../../train/', 'dataset_train.pkl', transforms.Compose([resize_transform, affine_transform, to_tensor_transform])),
         batch_size=batch_size, shuffle=True,
@@ -179,11 +167,12 @@ if __name__=='__main__':
     )
 
     val_loader = torch.utils.data.DataLoader(
-        BDDDataset('../../val/', 'dataset_val.pkl', transforms.Compose([resize_transform, to_tensor_transform])),
+        BDDDataset('../../val/', 'dataset_test.pkl', transforms.Compose([resize_transform, to_tensor_transform])),
         batch_size=batch_size, shuffle=False,
         num_workers=8, pin_memory=True
     )
 
+    # Initialise Trainer
     trainer = Trainer(model,
                       train_loader,
                       val_loader,
@@ -192,11 +181,13 @@ if __name__=='__main__':
                       summary_writer,
                       DEVICE)
 
+    # Train the model
     trainer.train(epochs,
                   1,
                   1,
                   1)
 
+    # Save the model
     trainer.save_model()
 
     print(log_dir)

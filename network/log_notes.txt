@@ -534,7 +534,7 @@ bs_64_lr_0.001_run_115:
     SGD
     Huber
     Normalise images
-    Final Loss (MSE):
+    Final Loss (MSE): 
 
 bs_64_lr_0.001_run_116:
     100000 training set
@@ -671,5 +671,34 @@ Experiments:
         Median L1 Error: 0.894
         Loss: 1.203
     - 20 epochs: bs_64_lr_0.0005_run_1
+        Mean error/ground truth: 0.428
+        Median error/ground truth: 0.201
+        Mean Squared Error: 6.088
+        Median L2 Error: 1.005
+        Mean L1 Error: 1.651
+        Median L1 Error: 1.002
+        Loss: 1.248
     - 20 epochs: bs_64_lr_0.0001_run_13
+        Mean error/ground truth: 0.454
+        Median error/ground truth: 0.188
+        Mean Squared Error: 6.495
+        Median L2 Error: 0.970
+        Mean L1 Error: 1.643
+        Median L1 Error: 0.985
+        Loss: 1.256
     - 25 epochs: bs_64_lr_0.0001_run_14
+        Mean error/ground truth: 0.471
+        Median error/ground truth: 0.190
+        Mean Squared Error: 6.498
+        Median L2 Error: 1.047
+        Mean L1 Error: 1.669
+        Median L1 Error: 1.023
+        Loss: 1.268
+    - 25 epochs: bs_64_lr_0.0005_run_2
+        Mean error/ground truth: 0.379
+        Median error/ground truth: 0.179
+        Mean Squared Error: 5.614
+        Median L2 Error: 0.790
+        Mean L1 Error: 1.523
+        Median L1 Error: 0.889
+        Loss: 1.133

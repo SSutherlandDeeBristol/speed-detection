@@ -50,11 +50,11 @@ class Trainer:
     ):
         self.model.train()
         with autograd.detect_anomaly():
-
             for epoch in range(start_epoch, epochs):
                 self.model.train()
                 data_load_start_time = time.time()
 
+                # Iterate over the samples in the training set
                 for batch, labels, fnames in self.train_loader:
                     batch = batch.to(self.device)
                     labels = labels.to(self.device)
@@ -63,17 +63,22 @@ class Trainer:
                     batch = batch.float()
                     labels = labels.float()
 
+                    # Forward pass of the CNN
                     logits = self.model.forward(batch)
 
                     labels = torch.unsqueeze(labels, dim=1)
 
+                    # Calculate the loss
                     loss = self.criterion(logits, labels)
 
+                    # Backpropagate error
                     loss.backward()
 
+                    # Update the optimiser
                     self.optimizer.step()
                     self.optimizer.zero_grad()
 
+                    # Log times and loss
                     data_load_time = data_load_end_time - data_load_start_time
                     step_time = time.time() - data_load_end_time
                     if ((self.step + 1) % log_frequency) == 0:
@@ -134,6 +139,7 @@ class Trainer:
         total_labels = np.array([])
 
         with torch.no_grad():
+            # Iterate over the samples in the testing set
             for i, (batch, labels, fnames) in enumerate(self.val_loader):
                 print(f'step ({i + 1}/{len(self.val_loader)})', flush=True)
                 batch = batch.to(self.device)
@@ -142,6 +148,7 @@ class Trainer:
                 batch = batch.float()
                 labels = labels.float()
 
+                # Forward pass of the CNN
                 logits = self.model(batch)
 
                 labels = torch.unsqueeze(labels, dim=1)
@@ -155,10 +162,13 @@ class Trainer:
                         labels[j].item()
                     )
 
+        # Calculate the total Huber Loss
         loss = self.criterion(torch.Tensor(total_logits), torch.Tensor(total_labels))
 
+        # Save the logits and predictions
         self.save_logits_to_logs(epoch_num, logit_log)
 
+        # Print and save metrics
         self.print_validation_metrics(loss,
                                       epoch_num)
 
