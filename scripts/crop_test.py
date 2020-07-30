@@ -31,13 +31,13 @@ if __name__ == '__main__':
     prev_image = crop_image(prev_image)
     current_image = crop_image(current_image)
 
-    cv.imshow("yah", current_image)
+    cv.imshow("test", current_image)
     cv.waitKey(0)
 
     prev_image = change_brightness(prev_image)
     current_image = change_brightness(current_image)
 
-    cv.imshow("yah", current_image)
+    cv.imshow("test", current_image)
     cv.waitKey(0)
 
     prev_gray = cv.cvtColor(prev_image, cv.COLOR_BGR2GRAY)
@@ -58,6 +58,6 @@ if __name__ == '__main__':
 
     rgb = cv.cvtColor(mask, cv.COLOR_HSV2BGR)
 
-    cv.imshow("yah", rgb)
+    cv.imshow("test", rgb)
     cv.waitKey(0)
 

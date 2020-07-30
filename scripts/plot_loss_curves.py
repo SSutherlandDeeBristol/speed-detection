@@ -59,8 +59,6 @@ if __name__ == '__main__':
     plt.plot(train_loss[:,0], train_loss[:,1], color=blue, alpha=0.2)
     plt.plot(smoothed_test_loss[:,0], smoothed_test_loss[:,1], color=red)
     plt.plot(test_loss[:,0], test_loss[:,1], color=red, alpha=0.2)
-    # axes = plt.gca()
-    # axes.yaxis.grid()
     plt.grid()
     plt.tight_layout()
     plt.savefig(os.path.join(csv_path, f'{run_name}_loss_curve.pdf'), bbox_inches=None, transparent=True)

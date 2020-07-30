@@ -21,10 +21,6 @@ if __name__=='__main__':
 
     of_map = pkl.load(open(f'../../{args.mode}/dataset_{args.mode}.pkl', 'rb'))
 
-    # print(of_map)
-    # print(max([s for _,s in of_map.values()]))
-    # print(len(of_map))
-
     dpi = 300
     plt.figure(dpi=dpi, figsize=(20, 10))
     plt.rc('font', size=32)
@@ -37,12 +33,7 @@ if __name__=='__main__':
     plt.xlabel('Ground truth speed ($ms^{-1}$)', fontsize=34, labelpad=30)
     plt.ylabel('Binned frequency', fontsize=34, labelpad=30)
     plt.xlim(left=0, right=45)
-    n, bins, _ = plt.hist([s for _,s in of_map.values()], bins=90, color=color)
-    print(n)
-    print(bins)
-    hehe = list(zip(bins[1:],n))
-    print(hehe)
+    n, bins, _ = plt.hist([s for _,s in of_map.values()], bins=90, range=(0,45), color=color)
     plt.tight_layout()
     plt.savefig(f'plots_{args.mode}/{args.mode}-speed-histogram.pdf', transparent=True, bbox_inches=None)
-    # plt.show()
-    np.savetxt(f'plots_{args.mode}/{args.mode}-speed-histogram.csv', np.around(hehe, decimals=5), delimiter=',', fmt='%1.5f')
+    np.savetxt(f'plots_{args.mode}/{args.mode}-speed-histogram.csv', np.around(list(zip(bins[1:],n)), decimals=5), delimiter=',', fmt='%1.5f')

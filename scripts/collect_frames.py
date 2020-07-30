@@ -19,6 +19,7 @@ parser.add_argument('--clean',
                     action='store_true',
                     help='remove deleted videos entries from the map.')
 
+# Read the video metadata and return the correct rotation
 def get_rotation_correct(path):
     meta_dict = ffmpeg.probe(path)
 
@@ -105,6 +106,7 @@ if __name__ == '__main__':
                         print('Speed is negative..')
                         continue
 
+                    # Extract the current frame
                     vid.set(cv.CAP_PROP_POS_MSEC, int(timestamp - start_time))
 
                     current_frame = vid.get(cv.CAP_PROP_POS_FRAMES)
@@ -119,6 +121,7 @@ if __name__ == '__main__':
                     if not success or current_frame < 1:
                         continue
 
+                    # Extract the previous frame
                     vid.set(cv.CAP_PROP_POS_FRAMES, current_frame - 1)
 
                     try:
@@ -138,6 +141,7 @@ if __name__ == '__main__':
                     except FileExistsError:
                         pass
 
+                    # Save the frames to the correct folder
                     prev_filename = f'{key}-{image_counter}-prev.png'
                     current_filename = f'{key}-{image_counter}-current.png'
 
@@ -156,4 +160,5 @@ if __name__ == '__main__':
             except:
                 print('Problem loading JSON..')
 
+    # Save the image map to file
     pkl.dump(image_map, open(os.path.join(image_dir, f'image_map_{mode}.pkl'), 'wb'))

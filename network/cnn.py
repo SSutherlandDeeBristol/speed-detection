@@ -70,10 +70,7 @@ class CNN(nn.Module):
         self.initialise_layer(self.conv5)
         self.norm5 = nn.BatchNorm2d(64)
 
-        # size = int((math.floor(image_height/32) + 1) * (math.floor(image_width/32) + 1)) * self.conv5.out_channels
-
         self.fc1 = nn.Linear(60352, 1164)
-        # self.fc1 = nn.Linear(230400, 1164)
         self.initialise_layer(self.fc1)
 
         self.fc2 = nn.Linear(1164, 100)

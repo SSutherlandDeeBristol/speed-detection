@@ -13,13 +13,16 @@ class BDDDataset(data.Dataset):
         self.of_map = pickle.load(open(os.path.join(of_path, of_map_name), 'rb'))
 
     def __getitem__(self, index):
+        # Load sample
         image_name, speed = self.of_map[index]
 
         image_path = os.path.join(self.of_path, image_name[:17], image_name)
 
+        # Load optical flow image
         image = Image.open(image_path)
         image.load()
 
+        # Apply transforms
         if self.transforms:
             image = self.transforms(image)
 

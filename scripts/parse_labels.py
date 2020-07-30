@@ -61,6 +61,7 @@ if __name__ == '__main__':
             weather.append(labels_map[id][0])
             scene.append(labels_map[id][1])
             time_of_day.append(labels_map[id][2])
+            print(id,labels_map[id][0],labels_map[id][1],labels_map[id][2])
         else:
             weather.append('undefined')
             scene.append('undefined')
@@ -107,15 +108,18 @@ if __name__ == '__main__':
     plt.ylabel('Frequency', fontsize=34, labelpad=30)
     plt.tight_layout()
     plt.savefig(os.path.join(plot_dir, f'{mode}_weather.pdf'), bbox_inches=None, transparent=True)
+    np.savetxt(os.path.join(plot_dir, f'{mode}_weather.csv'), [(float(i+1), float(v)) for i,(k,v) in enumerate(weather_map.items())], delimiter=',', fmt='%s')
 
     plt.figure(figsize=(20,10))
     plt.bar(scene_map.keys(), scene_map.values(), color=color)
     plt.ylabel('Frequency', fontsize=34, labelpad=30)
     plt.tight_layout()
     plt.savefig(os.path.join(plot_dir, f'{mode}_scene.pdf'), bbox_inches=None, transparent=True)
+    np.savetxt(os.path.join(plot_dir, f'{mode}_scene.csv'), [(float(i+1), float(v)) for i,(k,v) in enumerate(scene_map.items())], delimiter=',', fmt='%s')
 
     plt.figure(figsize=(20,10))
     plt.bar(time_of_day_map.keys(), time_of_day_map.values(), color=color)
     plt.ylabel('Frequency', fontsize=34, labelpad=30)
     plt.tight_layout()
     plt.savefig(os.path.join(plot_dir, f'{mode}_time_of_day.pdf'), bbox_inches=None, transparent=True)
+    np.savetxt(os.path.join(plot_dir, f'{mode}_time_of_day.csv'), [(float(i+1), float(v)) for i,(k,v) in enumerate(time_of_day_map.items())], delimiter=',', fmt='%s')
